@@ -6,7 +6,7 @@ const specialFigures = ['J', 'Q', 'K', 'A'];
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
 const takeCardButton = document.querySelector('#take-card');
-const playerPoints = document.querySelector('#player-points');
+const playerPoints = document.querySelector('#playerPoints');
 
 let playerHand = [];
 let dealerHand = [];
@@ -90,6 +90,7 @@ takeCardButton.addEventListener('click', () => {
   playerCard = takeCard();
   showCards('player', playerCard);
   playerScoreSum += cardValue(playerCard);
+  playerPoints.innerHTML = playerScoreSum;
   console.log(playerScoreSum)
   playerScoreSum === 21 ? console.log('You win') //TODO change this to wait for the dealer to play nad add validations 
   : playerScoreSum > 21 ? console.log('You lose') : null;
