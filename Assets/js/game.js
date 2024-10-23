@@ -1,6 +1,8 @@
 let deck = [];
 const figures = ['C', 'D', 'H', 'S'];
 const specialFigures = ['J', 'Q', 'K', 'A'];
+const playerCards = document.querySelector('#player-cards');
+const dealerCards = document.querySelector('#dealer-cards');
 
 let playerHand = [];
 let dealerHand = [];
@@ -66,4 +68,14 @@ const cardValue = (card) => {
   return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; //Todo this function is going to be removed when the function commented is implemented
 }
 
-console.log(cardValue('8C') ); 
+const showCards = (turn, card) => {
+  if (turn === 'player') {
+    playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
+  } else {
+    dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
+  }
+}
+showCards('player', '5H');
+showCards('dealer', '5C');
+showCards('player', 'JD');
+showCards('dealer', 'AC');
