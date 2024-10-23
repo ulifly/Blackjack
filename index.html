@@ -4,11 +4,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="/Assets/css/styles.css">
   <title>Blackjack</title>
 </head>
 
 <body>
+  <header class="title">
+    Blackjack
+  </header>
 
+
+  <div class="row mt-2">
+
+    <div class="col text-center">
+      <button class="btn btn-danger">New Game</button>
+      <button class="btn btn-primary">Card</button>
+      <button class="btn btn-primary">Stand</button>
+    </div>
+
+  </div>
+
+  <div class="row container">
+    <div class="col">
+
+      <h1>Player 1 <small> **Score 0**</small> </h1>
+
+      <div id="player-cards">
+        <img class="game-card" src="/Assets/cartas/2C.png" alt="2 of clubs" class="card">
+        <img class="game-card" src="/Assets/cartas/3C.png" alt="2 of clubs" class="card">
+        <img class="game-card" src="/Assets/cartas/3C.png" alt="2 of clubs" class="card">
+        <img class="game-card" src="/Assets/cartas/3C.png" alt="2 of clubs" class="card">
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row container">
+    <div class="col mt-5">
+
+      <h1>Dealer <small> **Score 0**</small> </h1>
+
+      <div id="dealer-cards">
+        <img class="game-card" src="/Assets/cartas/2H.png" alt="2 of clubs" class="card">
+        <img class="game-card" src="/Assets/cartas/3S.png" alt="2 of clubs" class="card">
+        <img class="game-card" src="/Assets/cartas/3C.png" alt="2 of clubs" class="card">
+        <img class="game-card" src="/Assets/cartas/JD.png" alt="2 of clubs" class="card">
+
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/Assets/js/underscore.js"></script>
+  <script src="/Assets/js/game.js"></script>
 </body>
 
 </html>
