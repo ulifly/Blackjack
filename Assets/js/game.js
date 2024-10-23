@@ -1,11 +1,16 @@
 let deck = [];
 const figures = ['C', 'D', 'H', 'S'];
 const specialFigures = ['J', 'Q', 'K', 'A'];
+
+// HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
+const takeCardButton = document.querySelector('#take-card');
+const playerPoints = document.querySelector('#player-points');
 
 let playerHand = [];
 let dealerHand = [];
+let playerScoreSum = 0;
 
 
 // This function creates a new deck of cards and shuffles it
@@ -28,7 +33,7 @@ deckCreation();
 
 
 
-// This function allows us to take a card
+//* This function allows us to take a card
 
 const takeCard = () => {
   //TODO--------------------------------------------------------------
@@ -44,7 +49,7 @@ const takeCard = () => {
 }
 
 
-// This function allows us to take the value of a card
+//* This function allows us to take the value of a card
 
 const cardValue = (card) => {
 //TODO--------------------------------------------------------------
@@ -68,6 +73,8 @@ const cardValue = (card) => {
   return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; //Todo this function is going to be removed when the function commented is implemented
 }
 
+
+//* This function allows us to show the cards in the game screen
 const showCards = (turn, card) => {
   if (turn === 'player') {
     playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
@@ -75,7 +82,22 @@ const showCards = (turn, card) => {
     dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }
 }
-showCards('player', '5H');
-showCards('dealer', '5C');
-showCards('player', 'JD');
-showCards('dealer', 'AC');
+
+
+
+//*  listens to the event of the button and call the function to take a card
+takeCardButton.addEventListener('click', () => {
+  playerCard = takeCard();
+  showCards('player', playerCard);
+  playerScoreSum += cardValue(playerCard);
+  console.log(playerScoreSum)
+  playerScoreSum === 21 ? console.log('You win') //TODO change this to wait for the dealer to play nad add validations 
+  : playerScoreSum > 21 ? console.log('You lose') : null;
+});
+
+
+// //! TESTS//////
+// showCards('player', '5H');
+// showCards('dealer', '5C');
+// showCards('player', 'JD');
+// showCards('dealer', 'AC');
