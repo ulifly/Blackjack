@@ -7,11 +7,14 @@ const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
 const takeCardButton = document.querySelector('#take-card');
 const playerPoints = document.querySelector('#playerPoints');
+const dealerPoints = document.querySelector('#dealerPoints');
+const standButton = document.querySelector('#stand-Button');
 
 let playerHand = [];
 let dealerHand = [];
 let playerScoreSum = 0;
-
+let dealerScoreSum = 0;
+let turn = 'player';
 
 // This function creates a new deck of cards and shuffles it
 const deckCreation = () => {
@@ -83,6 +86,14 @@ const showCards = (turn, card) => {
   }
 }
 
+const dealerTurn = () => {
+  do {
+    dealerCard = takeCard();
+    showCards('dealer', dealerCard);
+    dealerScoreSum += cardValue(dealerCard);
+    dealerPoints.innerHTML = dealerScoreSum;
+  } while (dealerScoreSum < 17);
+}
 
 
 //*  listens to the event of the button and call the function to take a card
@@ -91,10 +102,38 @@ takeCardButton.addEventListener('click', () => {
   showCards('player', playerCard);
   playerScoreSum += cardValue(playerCard);
   playerPoints.innerHTML = playerScoreSum;
-  console.log(playerScoreSum)
-  playerScoreSum === 21 ? console.log('You win') //TODO change this to wait for the dealer to play nad add validations 
-  : playerScoreSum > 21 ? console.log('You lose') : null;
+
+  if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs
+    console.log('You lose');
+    takeCardButton.disabled = true;
+    dealerTurn();
+  } else if (playerScoreSum === 21) {
+    console.log('You win');
+    takeCardButton.disabled = true;
+    dealerTurn();
+  }
+  // playerScoreSum === 21 ? console.log('You win') 
+  // : playerScoreSum > 21 ? console.log('You lose'): null;
+  
 });
+
+//* listens to the event of the button stand and call the function to take the dealer turn
+
+standButton.addEventListener('click', () => {
+  takeCardButton.disabled = true;
+  dealerTurn();
+  if (dealerScoreSum > 21 || dealerScoreSum < playerScoreSum) {
+    console.log('You win');
+  } else if (dealerScoreSum === playerScoreSum) {
+    console.log('It is a draw');
+  } else {
+    console.log('You lose');
+  }
+  standButton.disabled = true;
+  // dealerScoreSum > 21 || dealerScoreSum < playerScoreSum ? console.log('You win') 
+  // : dealerScoreSum === playerScoreSum ? console.log('It is a draw') : console.log('You lose');
+});
+
 
 
 // //! TESTS//////
