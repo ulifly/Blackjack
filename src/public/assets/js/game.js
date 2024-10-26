@@ -31,9 +31,12 @@ const deckCreation = () => {
     deck = _.shuffle(deck);
 
     return deck;
-}
-
-deckCreation();
+  }
+  
+  deckCreation();
+  //TODO and valide at the end of every play if the deck length is less than 25% of the total cards, 
+  //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
+  //TODO then create a new deck
 
 //! test
 // deck = ['2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C', 'JC', 
@@ -48,14 +51,6 @@ deckCreation();
 
 const takeCard = () => {
   //TODO--------------------------------------------------------------
-  //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
-  //TODO and valide at the end of every play if the deck length is less than 25% of the total cards, 
-  //TODO then create a new deck
-  if (deck.length === 0) {   
-    throw 'There are no cards in the deck';
-  }
-  //TODO--------------------------------------------------------------
-
   return deck.pop();
 }
 
