@@ -50,8 +50,13 @@ const deckCreation = () => {
 //* This function allows us to take a card
 
 const takeCard = () => {
-  //TODO--------------------------------------------------------------
-  return deck.pop();
+  card = deck.pop();
+  if (turn === 'player') {
+    playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
+  }  else {
+    dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
+  }
+  return card;
 }
 
 
@@ -60,16 +65,6 @@ const takeCard = () => {
 const cardValue = (card) => {
   const value = card.substring(0, card.length - 1);
   return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; //Todo this function is going to be removed when the function commented is implemented
-}
-
-
-//* This function allows us to show the cards in the game screen
-const showCards = (turn, card) => {
-  if (turn === 'player') {
-    playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
-  } else {
-    dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
-  }
 }
 
 const dealerTurn = () => {
