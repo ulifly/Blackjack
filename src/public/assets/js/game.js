@@ -33,7 +33,7 @@ const deckCreation = () => {
     return deck;
   }
   
-  deckCreation();
+ deckCreation();
   //TODO and valide at the end of every play if the deck length is less than 25% of the total cards, 
   //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
   //TODO then create a new deck
@@ -68,8 +68,8 @@ const cardValue = (card) => {
 }
 
 const dealerTurn = () => {
+      turn = 'dealer';
       dealerCard = takeCard();
-      showCards('dealer', dealerCard);
       dealerScoreSum += cardValue(dealerCard);
       dealerPoints.innerHTML = dealerScoreSum;
       dealerHand.push(dealerCard.substring(0, dealerCard.length - 1));
@@ -87,7 +87,6 @@ takeCardButton.addEventListener('click', () => {
 
   playerHand.push(playerCard.substring(0, playerCard.length - 1));
   console.log(playerHand);
-  showCards('player', playerCard);
   playerScoreSum += cardValue(playerCard);
 
   if(playerScoreSum > 21 && playerHand.includes('A')) {
