@@ -1,7 +1,8 @@
-let deck = [];
-const figures = ['C', 'D', 'H', 'S'];
-const specialFigures = ['J', 'Q', 'K', 'A'];
-
+//TODO delete this, is already on server
+// let deck = [];
+// const figures = ['C', 'D', 'H', 'S'];
+// const specialFigures = ['J', 'Q', 'K', 'A']; 
+//TODO --------------------------------
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
@@ -16,25 +17,27 @@ let playerScoreSum = 0;
 let dealerScoreSum = 0;
 let turn = 'player';
 
+//TODO delete this, is already on server
 // This function creates a new deck of cards and shuffles it
-const deckCreation = () => {
-  for (let i = 2; i <= 10; i++) {
-      for (figure of figures) {
-          deck.push(i + figure);
-      }
-    }
-    for (figure of figures) {
-        for (specialFigure of specialFigures) {
-            deck.push(specialFigure + figure);
-        }
-    }
-    deck = _.shuffle(deck);
+// const deckCreation = () => {
+//   for (let i = 2; i <= 10; i++) {
+//       for (figure of figures) {
+//           deck.push(i + figure);
+//       }
+//     }
+//     for (figure of figures) {
+//         for (specialFigure of specialFigures) {
+//             deck.push(specialFigure + figure);
+//         }
+//     }
+//     deck = _.shuffle(deck);
 
-    return deck;
-  }
-  
- deckCreation();
-  //TODO and valide at the end of every play if the deck length is less than 25% of the total cards, 
+//     return deck;
+//   }
+//TODO---------------------------------------
+
+ //deckCreation();
+  //TODO and validate at the end of every play if the deck length is less than 25% of the total cards, 
   //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
   //TODO then create a new deck
 

@@ -8,9 +8,11 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/styles.css" type="text/css">
   <title>Blackjack</title>
+  <script src="/socket.io/socket.io.js" type="js" ></script>
 </head>
 
 <body>
+
   <header class="title">
     Blackjack
   </header>
@@ -52,6 +54,9 @@
     </div>
 
   </div>
+  <script>
+    const socket = io();
+  </script>
   <script src="/Assets/js/underscore.js"></script>
   <script src="/Assets/js/game.js"></script>
 </body>
