@@ -11,35 +11,11 @@ const playerPoints = document.querySelector('#playerPoints');
 const dealerPoints = document.querySelector('#dealerPoints');
 const standButton = document.querySelector('#stand-Button');
 
-let playerHand = [];
-let dealerHand = [];
-let playerScoreSum = 0;
-let dealerScoreSum = 0;
-let turn = 'player';
-
-//TODO delete this, is already on server
-// This function creates a new deck of cards and shuffles it
-// const deckCreation = () => {
-//   for (let i = 2; i <= 10; i++) {
-//       for (figure of figures) {
-//           deck.push(i + figure);
-//       }
-//     }
-//     for (figure of figures) {
-//         for (specialFigure of specialFigures) {
-//             deck.push(specialFigure + figure);
-//         }
-//     }
-//     deck = _.shuffle(deck);
-
-//     return deck;
-//   }
-//TODO---------------------------------------
-
- //deckCreation();
-  //TODO and validate at the end of every play if the deck length is less than 25% of the total cards, 
-  //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
-  //TODO then create a new deck
+//let playerHand = [];
+//let dealerHand = [];
+//let playerScoreSum = 0;
+//let dealerScoreSum = 0;
+let turn = 'dealer';
 
 //! test
 // deck = ['2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C', 'JC', 
@@ -49,17 +25,20 @@ let turn = 'player';
 //         '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS', '3S', 'AS', 'AC','2S'];
 
 
+const takeCard = (turn) => {
+  socket.emit('takeCard', turn)
+  socket.on('takeCard', card => {
+    console.log(card)
+    showCard(card, turn);
+  })
+}
 
-//* This function allows us to take a card
-
-const takeCard = () => {
-  card = deck.pop();
+const showCard = (card, turn) => {
   if (turn === 'player') {
     playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }  else {
     dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }
-  return card;
 }
 
 
@@ -86,31 +65,31 @@ const dealerTurn = () => {
 
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
-  playerCard = takeCard();
+  playerCard = takeCard(turn);
 
-  playerHand.push(playerCard.substring(0, playerCard.length - 1));
-  console.log(playerHand);
-  playerScoreSum += cardValue(playerCard);
+  // playerHand.push(playerCard.substring(0, playerCard.length - 1));
+  // console.log(playerHand);
+  // playerScoreSum += cardValue(playerCard);
 
-  if(playerScoreSum > 21 && playerHand.includes('A')) {
-    playerHand.splice(playerHand.indexOf('A'), 1);
-    console.log(playerHand);
-    playerScoreSum -= 10;
-  }
+  // if(playerScoreSum > 21 && playerHand.includes('A')) {
+  //   playerHand.splice(playerHand.indexOf('A'), 1);
+  //   console.log(playerHand);
+  //   playerScoreSum -= 10;
+  // }
 
-  playerPoints.innerHTML = playerScoreSum;
+  // playerPoints.innerHTML = playerScoreSum;
 
-  if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs
-    console.log('You lose');
-    takeCardButton.disabled = true;
-    dealerTurn();
-  } else if (playerScoreSum === 21) {
-    console.log('You win');
-    takeCardButton.disabled = true;
-    dealerTurn();
-  }
-  // playerScoreSum === 21 ? console.log('You win') 
-  // : playerScoreSum > 21 ? console.log('You lose'): null;
+  // if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs
+  //   console.log('You lose');
+  //   takeCardButton.disabled = true;
+  //   dealerTurn();
+  // } else if (playerScoreSum === 21) {
+  //   console.log('You win');
+  //   takeCardButton.disabled = true;
+  //   dealerTurn();
+  // }
+  // // playerScoreSum === 21 ? console.log('You win') 
+  // // : playerScoreSum > 21 ? console.log('You lose'): null;
   
 });
 

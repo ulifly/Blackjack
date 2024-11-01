@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 
 import { deckCreation }  from './gamelogic.mjs'
 
+let playerHand = [];
+let dealerHand = [];
+
 const deck = deckCreation();
 console.log(deck)
 
@@ -29,6 +32,15 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+
+  socket.on('takeCard', (turn) => {
+    const card = deck.pop();
+    console.log(turn)
+    console.log(card)
+    socket.emit('takeCard', card)
+  });
+
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
