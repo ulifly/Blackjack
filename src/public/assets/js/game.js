@@ -115,5 +115,3 @@ standButton.addEventListener('click', () => {
   // : dealerScoreSum === playerScoreSum ? console.log('It is a draw') : console.log('You lose');
 });
 
-
-
