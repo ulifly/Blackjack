@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
     const card = deck.pop();
     console.log(turn)
     console.log(card)
-    socket.emit('takeCard', card)
+    socket.emit('takeCardR', card)
   });
 
 

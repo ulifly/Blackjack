@@ -1,8 +1,4 @@
-//TODO delete this, is already on server
-// let deck = [];
-// const figures = ['C', 'D', 'H', 'S'];
-// const specialFigures = ['J', 'Q', 'K', 'A']; 
-//TODO --------------------------------
+
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
@@ -24,16 +20,19 @@ let turn = 'dealer';
 //         '7H', '8H', '9H', '10H', 'JH', 'QH', 'KH', 'AH', '4S', '5S', 
 //         '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS', '3S', 'AS', 'AC','2S'];
 
+//**  Sockets listeners -----------------------
+socket.on('takeCardR', card => {
+  console.log(card, turn)
+  showCard(card);
+})
+//------------------------------------------
+
 
 const takeCard = (turn) => {
   socket.emit('takeCard', turn)
-  socket.on('takeCard', card => {
-    console.log(card)
-    showCard(card, turn);
-  })
 }
 
-const showCard = (card, turn) => {
+const showCard = (card) => {
   if (turn === 'player') {
     playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }  else {
@@ -49,18 +48,18 @@ const cardValue = (card) => {
   return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; //Todo this function is going to be removed when the function commented is implemented
 }
 
-const dealerTurn = () => {
-      turn = 'dealer';
-      dealerCard = takeCard();
-      dealerScoreSum += cardValue(dealerCard);
-      dealerPoints.innerHTML = dealerScoreSum;
-      dealerHand.push(dealerCard.substring(0, dealerCard.length - 1));
+// const dealerTurn = () => {
+//       turn = 'dealer';
+//       dealerCard = takeCard();
+//       dealerScoreSum += cardValue(dealerCard);
+//       dealerPoints.innerHTML = dealerScoreSum;
+//       dealerHand.push(dealerCard.substring(0, dealerCard.length - 1));
   
-      if(dealerScoreSum > 21 && dealerHand.includes('A')) {
-        dealerHand.splice(dealerHand.indexOf('A'), 1);
-        dealerScoreSum -= 10;
-      }
-}
+//       if(dealerScoreSum > 21 && dealerHand.includes('A')) {
+//         dealerHand.splice(dealerHand.indexOf('A'), 1);
+//         dealerScoreSum -= 10;
+//       }
+// }
 
 
 //*  listens to the event of the button and call the function to take a card
