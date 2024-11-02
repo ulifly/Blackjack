@@ -4,58 +4,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- BOOTSTRAP -->
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="assets/css/styles.css" type="text/css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <link rel="shortcut icon" href="#" type="image/x-icon">
   <title>Blackjack</title>
   <script src="/socket.io/socket.io.js"></script>
 </head>
 
-<body>
+<!-- <header class="title text-center">
+  Blackjack
+</header> -->
+<body class="d-flex align-items-center py-4 ">
 
-  <header class="title">
-    Blackjack
-  </header>
-
-
-  <div class="row mt-2">
-
-    <div class="col text-center">
-      <button class="btn btn-danger">New Game</button>
-      <button id="take-card" class="btn btn-primary">Card</button>
-      <button id="stand-Button" class="btn btn-primary">Stand</button>
-    </div>
-
-  </div>
-
-  <div class="row container">
-    <div class="col">
-
-      <h1>Player 1 - <small id="playerPoints"> 0</small> </h1>
-
-      <div id="player-cards">
-
+  <div class="form-signin w-100 m-auto" >
+    <form id="game-login">
+      <div class="d-flex justify-content-center">
+        <img class="mb-1" src="assets/images/pngwing.com.png" alt="cards logo" width="150" >
       </div>
+      <h1 class="h3 mb-3 fw-normal">Ingresar</h1>
 
-    </div>
-
-  </div>
-
-  <div class="row container">
-    <div class="col mt-5">
-
-      <h1>Dealer <small id="dealerPoints">0</small> </h1>
-
-      <div id="dealer-cards">
-
-
+      <div class="form-floating form-custom ">
+        <input type="text" class="form-control" id="playerName" placeholder="Nombre del jugador">
+        <label for="playerName">Nombre del jugador</label>
       </div>
-
-    </div>
+      <div class="d-flex justify-content-center ">
+        <button class="btn btn-primary py-3 mt-3" type="submit">entrar a la mesa</button>
+      </div>
+    </form>
 
   </div>
+
+  
+  <div class="hidden-content" >
+    <div class="row mt-2">
+  
+      <div class="col text-center">
+        <button class="btn btn-danger">New Game</button>
+        <button id="take-card" class="btn btn-primary">Card</button>
+        <button id="stand-Button" class="btn btn-primary">Stand</button>
+      </div>
+  
+    </div>
+
+    <div class="row container">
+      <div class="col">
+  
+        <h1>Player 1 - <small id="playerPoints"> 0</small> </h1>
+  
+        <div id="player-cards">
+  
+        </div>
+  
+      </div>
+  
+    </div>
+
+    <div class="row container">
+      <div class="col mt-5">
+  
+        <h1>Dealer <small id="dealerPoints">0</small> </h1>
+  
+        <div id="dealer-cards">
+  
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>
+
+
   <script>
     const socket = io();
   </script>
