@@ -34,8 +34,12 @@ socket.on('gameSessionLog', playerName => {
   document.querySelector('#playerN').innerHTML = playerName + " - ";
 })
 
-socket.on('takeCardR', card => {
-  console.log(card, turn)
+socket.on('takeCardR', (data) => {
+  const card = data.card;
+  const playerScoreSum = data.playerScoreSum;
+  const dealerScoreSum = data.dealerScoreSum;
+  playerPoints.innerHTML = playerScoreSum;
+  dealerPoints.innerHTML = dealerScoreSum;
   showCard(card);
 })
 //------------------------------------------
@@ -113,9 +117,6 @@ newGameButton.addEventListener('click', () => {
 takeCardButton.addEventListener('click', () => {
   playerCard = takeCard(turn);
 
-  // playerHand.push(playerCard.substring(0, playerCard.length - 1));
-  // console.log(playerHand);
-  // playerScoreSum += cardValue(playerCard);
 
 
 
@@ -127,7 +128,7 @@ takeCardButton.addEventListener('click', () => {
 
 
 
-  // playerPoints.innerHTML = playerScoreSum;
+
 
   // if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs
   //   console.log('You lose');

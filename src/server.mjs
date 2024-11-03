@@ -48,8 +48,12 @@ io.on('connection', (socket) => {
   })
 
   socket.on('takeCard', (turn) => {
-    const card = takeCard(turn);
-    socket.emit('takeCardR', card)
+    const args = takeCard(turn)
+    const card = args.card;
+    const playerScoreSum = args.playerScoreSum;
+    const dealerScoreSum = args.dealerScoreSum;
+    const data = { card, playerScoreSum, dealerScoreSum }
+    socket.emit('takeCardR', data);
   });
 
   socket.on('disconnect', () => {

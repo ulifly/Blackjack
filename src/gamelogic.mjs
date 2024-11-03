@@ -1,9 +1,14 @@
+//TODO on the function takeCard add the value of the card to the playerScoreSum or dealerScoreSum
+//TODO on the function deckCreation, create a new deck with 52 cards,
+
 import _ from 'underscore';
 
 const figures = ['C', 'D', 'H', 'S'];
 const specialFigures = ['J', 'Q', 'K', 'A'];
 let deck = [];
 
+let playerHand = [];
+let dealerHand = [];
 let playerScoreSum = 0;
 let dealerScoreSum = 0;
 
@@ -40,7 +45,14 @@ export const deckCreation = () => {
 //* This function allows us to take a card from the deck------
 export const takeCard = (turn) => {
     const card = deck.pop();
-    return card;
+    if (turn === 'player') {
+        playerHand.push(card.substring(0, card.length - 1));
+        playerScoreSum += cardValue(card);
+    } else {
+        dealerHand.push(card.substring(0, card.length - 1));
+        dealerScoreSum += cardValue(card);
+    }
+    return { card, playerScoreSum, dealerScoreSum };
 };
 //----------------------------------------------------------
 
