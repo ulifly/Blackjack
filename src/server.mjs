@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
 import { deckCreation }  from './gamelogic.mjs'
+import { takeCard } from './gamelogic.mjs'
 
 let playerHand = [];
 let dealerHand = [];
@@ -47,12 +48,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on('takeCard', (turn) => {
-    const card = deck.pop();
-    console.log(turn)
-    console.log(card)
+    const card = takeCard(turn);
     socket.emit('takeCardR', card)
   });
-
 
   socket.on('disconnect', () => {
     console.log('user disconnected');

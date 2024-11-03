@@ -1,4 +1,5 @@
 //TODO CardValue function to server side
+
 //TODO change player for the variable playerName
 //TODO remove back card when the dealer tur starts
 //TODO stand button should be disabled until the player has at least 2 cards
@@ -18,8 +19,6 @@ const dealerPoints = document.querySelector('#dealerPoints');
 const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
 
-//let playerScoreSum = 0;
-//let dealerScoreSum = 0;
 let turn = 'dealer';
 
 //**  Sockets listeners -----------------------
@@ -32,6 +31,7 @@ socket.on('gameSessionLog', playerName => {
   setTimeout(()=> {
     gameScreen.classList.remove('hidden-content');
   }, 400 );
+  document.querySelector('#playerN').innerHTML = playerName + " - ";
 })
 
 socket.on('takeCardR', card => {
@@ -42,13 +42,28 @@ socket.on('takeCardR', card => {
 
 
 //* functions -------------------------------
-const newGame = () => {
-  
-}
+
 
 const logToServer = (playerName) => {
   socket.emit('logToServer', playerName)
 }
+
+//* This function starts a new game----------------
+const newGame = () => {
+  turn = 'dealer';
+  takeCard(turn);
+  takeCardButton.disabled = false;
+  standButton.disabled = false;
+  setTimeout(() => {
+    turn = 'player';
+  }, 500); // Delay to simulate dealer's turn
+  newGameButton.disabled = true;
+  setTimeout(() => {
+    dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
+  }, 600);
+}
+//-----------------------------------------------
+
 
 const takeCard = (turn) => {
   socket.emit('takeCard', turn);
@@ -62,13 +77,6 @@ const showCard = (card) => {
   }
 }
 
-
-//* This function allows us to take the value of a card
-
-const cardValue = (card) => {
-  const value = card.substring(0, card.length - 1);
-  return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; //Todo this function is going to be changed to the server
-}
 
 // const dealerTurn = () => {
 //       turn = 'dealer';
@@ -93,24 +101,13 @@ document.getElementById('game-login').addEventListener('submit', function(event)
 })
 
 
-//*init game
+//*init game-----------
 takeCardButton.disabled = true;
 standButton.disabled = true;
-
 newGameButton.addEventListener('click', () => {
-  turn = 'dealer';
-  takeCard(turn);
-  takeCardButton.disabled = false;
-  standButton.disabled = false;
-  setTimeout(() => {
-    turn = 'player';
-  }, 500); // Delay to simulate dealer's turn
-  newGameButton.disabled = true;
-  setTimeout(() => {
-    dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
-  }, 600);
+  newGame();
 });
-
+//---------------------
 
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
@@ -120,11 +117,15 @@ takeCardButton.addEventListener('click', () => {
   // console.log(playerHand);
   // playerScoreSum += cardValue(playerCard);
 
+
+
   // if(playerScoreSum > 21 && playerHand.includes('A')) {
   //   playerHand.splice(playerHand.indexOf('A'), 1);
   //   console.log(playerHand);
   //   playerScoreSum -= 10;
   // }
+
+
 
   // playerPoints.innerHTML = playerScoreSum;
 

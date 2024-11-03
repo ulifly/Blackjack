@@ -8,6 +8,7 @@ let playerScoreSum = 0;
 let dealerScoreSum = 0;
 
 
+
   //TODO and validate at the end of every play if the deck length is less than 25% of the total cards, 
   //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
   //TODO then create a new deck
@@ -35,3 +36,18 @@ export const deckCreation = () => {
   
       return deck;
 }
+
+//* This function allows us to take a card from the deck------
+export const takeCard = (turn) => {
+    const card = deck.pop();
+    return card;
+};
+//----------------------------------------------------------
+
+
+//* This function allows us to take the value of a card------
+const cardValue = (card) => {
+    const value = card.substring(0, card.length - 1);
+    return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; 
+  }
+//----------------------------------------------------------
