@@ -1,17 +1,8 @@
-html, body {
+html,
+body {
   background-color: #2f4f30;
   color: azure;
 }
-
-
-/* .title {
-  text-align: center;
-  background-color: black;
-  color: white;
-  padding: 20px;
-  font-size: 25px;
-} */
-
 
 .game-card {
   position: relative;
@@ -30,10 +21,12 @@ html, body {
 .hidden-content {
   display: none;
 }
+
 html,
 body {
   height: 100%;
 }
+
 .form-custom {
   color: black;
 }
@@ -46,5 +39,3 @@ body {
 .form-signin .form-floating:focus-within {
   z-index: 2;
 }
-
-
