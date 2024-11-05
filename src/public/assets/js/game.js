@@ -54,6 +54,7 @@ const logToServer = (playerName) => {
 
 //* This function starts a new game----------------
 const newGame = () => {
+  socket.emit('newGame');
   turn = 'firstDealer';
   takeCard(turn);
   takeCardButton.disabled = false;
@@ -85,7 +86,7 @@ const stand = () => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
-  //newGameButton.disabled = false;//! this line acts weird over dealer score
+  //newGameButton.disabled = false;
 }
 
 

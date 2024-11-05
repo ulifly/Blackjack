@@ -45,7 +45,11 @@ io.on('connection', (socket) => {
       socket.emit('gameSessionLog', playerName);
     }
     console.log({ players });
-  })
+  });
+
+  // socket.on('newGame', () => {
+  //   console.log("pong");
+  // });
 
   socket.on('takeCard', (turn) => {
     const args = takeCard(turn)

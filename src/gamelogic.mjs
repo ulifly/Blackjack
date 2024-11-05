@@ -63,19 +63,23 @@ export const takeCard = (turn) => {
         const card = deck.pop();
         dealerHand.push(card.substring(0, card.length - 1));
         dealerScoreSum += cardValue(card);
-        console.log(dealerScoreSum);
         return { card, playerScoreSum, dealerScoreSum };
     } else {
+        while 
         const card = deck.pop();
-        while (dealerScoreSum < 17) {
-            dealerHand.push(card.substring(0, card.length - 1));
-            dealerScoreSum += cardValue(card);
-            console.log(dealerScoreSum);
-            return { card, playerScoreSum, dealerScoreSum };
-        }
+        const data = dealerTurn(card);
+        return data
     }
 };
 //----------------------------------------------------------
+
+const dealerTurn = (card) => {
+    while (dealerScoreSum < 17) {
+        dealerHand.push(card.substring(0, card.length - 1));
+        dealerScoreSum += cardValue(card);
+    }
+    return { card, dealerScoreSum };
+}
 
 //* This function allows us to take the value of a card------
 const cardValue = (card) => {
