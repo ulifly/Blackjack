@@ -1,9 +1,8 @@
 
-//TODO stand button logic should be changed to server side
-//TODO remove back card when the dealer tur starts
 //TODO create button and logic to logout from server
 //TODO reset points when a new game starts
 
+//TODO add flip card animations and sounds
 //TODO check for player reconnection and continue the game(game session - game state)
 //TODO when on play the new player should be able to see the game in progress but not to play until the game is over
 //TODO add a chat to the game

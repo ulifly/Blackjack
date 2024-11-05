@@ -1,5 +1,4 @@
 //TODO Validate playerScoreSum and dealerScoreSum, if the playerScoreSum is greater than 21, the player loses,
-//TODO dealer turn
 //TODO on the function deckCreation, create a new deck with 52 cards,
 
 import _ from 'underscore';
@@ -15,9 +14,8 @@ let dealerScoreSum = 0;
 
 
 
-//TODO and validate at the end of every play if the deck length is less than 25% of the total cards, 
-//TODO this is going to be removed, im going to create 6 decks as in casino rules, 
-//TODO then create a new deck
+//TODO validate at the end of every play if the deck length is less than 25% of the total cards, if so, create a new deck
+//TODO im going to create 6 decks as in casino rules, and shuffle them all together,
 
 //! test
 // deck = ['2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C', 'JC', 
