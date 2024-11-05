@@ -3,6 +3,8 @@
 
 import _ from 'underscore';
 
+import { cardEmitter } from './server.mjs';   
+
 const figures = ['C', 'D', 'H', 'S'];
 const specialFigures = ['J', 'Q', 'K', 'A'];
 let deck = [];
@@ -51,35 +53,35 @@ export const deckCreation = () => {
     return deck;
 }
 
+export const turnHelper = (turn) => {
+    if (turn === 'player') {
+        takeCard('player');
+    } else if (turn === 'firstDealer') {
+        takeCard('firstDealer');
+    } else if (turn === 'dealer') {
+        while (dealerScoreSum < 17) {
+            takeCard('dealer');
+        }
+    }
+}
+
+
 //* This function allows us to take a card from the deck------
-export const takeCard = (turn) => {
+const takeCard = (turn) => {
 
     if (turn === 'player') {
         const card = deck.pop();
         playerHand.push(card.substring(0, card.length - 1));
         playerScoreSum += cardValue(card);
-        return { card, playerScoreSum, dealerScoreSum };
-    } else if (turn === 'firstDealer') {
+        cardEmitter({card, playerScoreSum, dealerScoreSum});
+    } else  {
         const card = deck.pop();
         dealerHand.push(card.substring(0, card.length - 1));
         dealerScoreSum += cardValue(card);
-        return { card, playerScoreSum, dealerScoreSum };
-    } else {
-        while 
-        const card = deck.pop();
-        const data = dealerTurn(card);
-        return data
-    }
+        cardEmitter({card, playerScoreSum, dealerScoreSum});
+    } 
 };
 //----------------------------------------------------------
-
-const dealerTurn = (card) => {
-    while (dealerScoreSum < 17) {
-        dealerHand.push(card.substring(0, card.length - 1));
-        dealerScoreSum += cardValue(card);
-    }
-    return { card, dealerScoreSum };
-}
 
 //* This function allows us to take the value of a card------
 const cardValue = (card) => {

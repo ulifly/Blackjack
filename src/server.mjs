@@ -5,10 +5,7 @@ import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
 import { deckCreation } from './gamelogic.mjs'
-import { takeCard } from './gamelogic.mjs'
-
-let playerHand = [];
-let dealerHand = [];
+import { turnHelper } from './gamelogic.mjs'
 
 const deck = deckCreation();
 console.log(deck)
@@ -47,24 +44,18 @@ io.on('connection', (socket) => {
     console.log({ players });
   });
 
-  // socket.on('newGame', () => {
-  //   console.log("pong");
-  // });
-
   socket.on('takeCard', (turn) => {
-    const args = takeCard(turn)
-    const card = args.card;
-    const playerScoreSum = args.playerScoreSum;
-    const dealerScoreSum = args.dealerScoreSum;
-    const data = { card, playerScoreSum, dealerScoreSum }
-    socket.emit('takeCardR', data);
+    turnHelper(turn)
   });
-
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 });
+
+export const cardEmitter = (data) => {
+  io.emit('takeCardR', data);
+};
 
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
