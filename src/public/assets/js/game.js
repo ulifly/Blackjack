@@ -1,5 +1,6 @@
 
 //TODO add win loss and draw counters and display them on the screen
+//TODO change take card order to player, dealer backward, player, dealer
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 //TODO reset points when a new game starts
