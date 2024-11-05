@@ -42,9 +42,6 @@ socket.on('takeCardR', (data) => {
   showCard(card);
 })
 
-socket.on('standR', () => {
-  alert('pong');//TODO here pendant
-})
 //------------------------------------------
 
 
@@ -88,6 +85,7 @@ const stand = () => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
+  //newGameButton.disabled = false;//! this line acts weird over dealer score
 }
 
 

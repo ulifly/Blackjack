@@ -24,6 +24,16 @@ let dealerScoreSum = 0;
 //         '7H', '8H', '9H', '10H', 'JH', 'QH', 'KH', 'AH', '4S', '5S', 
 //         '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS', '3S', 'AS', 'AC','2S'];
 
+//! test dealer 21 natural(blackjack) and player 21 
+// deck = [ '5C',  'QD', '7S', 'JC', '2H',  '3C', 'QH',
+// '8D',  'JD', '5S', 'QC', '10D', '7C', '8C',
+// '4D',  '5H', 'KD', 'JH', '9H',  'AH', '4H',
+// '3S',  '3H', 'KC', 'KS', '10S', '3D', '2S',
+// 'AS',  '4S', 'JS', '4C', '10H', '6S', '9D',
+// '8S',  '8H', 'AC', '6D', '7H',  'KH', '5D',
+// '10C', '9C', '2C', '2D', '7D',  'QS', '9S',
+// '6H',  '6C', 'AD'];
+
 
 export const deckCreation = () => {
     for (let i = 2; i <= 10; i++) {
@@ -43,33 +53,33 @@ export const deckCreation = () => {
 
 //* This function allows us to take a card from the deck------
 export const takeCard = (turn) => {
-    const card = deck.pop();
+
     if (turn === 'player') {
+        const card = deck.pop();
         playerHand.push(card.substring(0, card.length - 1));
         playerScoreSum += cardValue(card);
+        return { card, playerScoreSum, dealerScoreSum };
     } else if (turn === 'firstDealer') {
+        const card = deck.pop();
         dealerHand.push(card.substring(0, card.length - 1));
         dealerScoreSum += cardValue(card);
+        console.log(dealerScoreSum);
+        return { card, playerScoreSum, dealerScoreSum };
     } else {
+        const card = deck.pop();
         while (dealerScoreSum < 17) {
             dealerHand.push(card.substring(0, card.length - 1));
             dealerScoreSum += cardValue(card);
+            console.log(dealerScoreSum);
+            return { card, playerScoreSum, dealerScoreSum };
         }
     }
-    return { card, playerScoreSum, dealerScoreSum };
 };
 //----------------------------------------------------------
-
-// export const stand = () => { //!here from server.mjs
-//     while (dealerScoreSum < 17) {
-//        const data = takeCard('dealer');
-//        return data;
-//     }
-// };
 
 //* This function allows us to take the value of a card------
 const cardValue = (card) => {
     const value = card.substring(0, card.length - 1);
     return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1;
 }
-//----------------------------------------------------------
+//---------------------------------------------------------
