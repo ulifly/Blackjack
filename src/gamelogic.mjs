@@ -1,4 +1,5 @@
-//TODO on the function takeCard add the value of the card to the playerScoreSum or dealerScoreSum
+//TODO Validate playerScoreSum and dealerScoreSum, if the playerScoreSum is greater than 21, the player loses,
+//TODO dealer turn
 //TODO on the function deckCreation, create a new deck with 52 cards,
 
 import _ from 'underscore';
@@ -14,9 +15,9 @@ let dealerScoreSum = 0;
 
 
 
-  //TODO and validate at the end of every play if the deck length is less than 25% of the total cards, 
-  //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
-  //TODO then create a new deck
+//TODO and validate at the end of every play if the deck length is less than 25% of the total cards, 
+//TODO this is going to be removed, im going to create 6 decks as in casino rules, 
+//TODO then create a new deck
 
 //! test
 // deck = ['2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C', 'JC', 
@@ -31,15 +32,15 @@ export const deckCreation = () => {
         for (const figure of figures) {
             deck.push(i + figure);
         }
-      }
-      for (const figure of figures) {
-          for (const specialFigure of specialFigures) {
-              deck.push(specialFigure + figure);
-          }
-      }
-      deck = _.shuffle(deck);
-  
-      return deck;
+    }
+    for (const figure of figures) {
+        for (const specialFigure of specialFigures) {
+            deck.push(specialFigure + figure);
+        }
+    }
+    deck = _.shuffle(deck);
+
+    return deck;
 }
 
 //* This function allows us to take a card from the deck------
@@ -48,18 +49,29 @@ export const takeCard = (turn) => {
     if (turn === 'player') {
         playerHand.push(card.substring(0, card.length - 1));
         playerScoreSum += cardValue(card);
-    } else {
+    } else if (turn === 'firstDealer') {
         dealerHand.push(card.substring(0, card.length - 1));
         dealerScoreSum += cardValue(card);
+    } else {
+        while (dealerScoreSum < 17) {
+            dealerHand.push(card.substring(0, card.length - 1));
+            dealerScoreSum += cardValue(card);
+        }
     }
     return { card, playerScoreSum, dealerScoreSum };
 };
 //----------------------------------------------------------
 
+// export const stand = () => { //!here from server.mjs
+//     while (dealerScoreSum < 17) {
+//        const data = takeCard('dealer');
+//        return data;
+//     }
+// };
 
 //* This function allows us to take the value of a card------
 const cardValue = (card) => {
     const value = card.substring(0, card.length - 1);
-    return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; 
-  }
+    return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1;
+}
 //----------------------------------------------------------

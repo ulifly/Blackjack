@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
-import { deckCreation }  from './gamelogic.mjs'
+import { deckCreation } from './gamelogic.mjs'
 import { takeCard } from './gamelogic.mjs'
 
 let playerHand = [];
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
       plyerCount++;
       socket.emit('gameSessionLog', playerName);
     }
-    console.log({players});
+    console.log({ players });
   })
 
   socket.on('takeCard', (turn) => {
@@ -56,11 +56,12 @@ io.on('connection', (socket) => {
     socket.emit('takeCardR', data);
   });
 
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 });
 
 server.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
