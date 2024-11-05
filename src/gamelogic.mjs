@@ -53,22 +53,22 @@ export const deckCreation = () => {
     return deck;
 }
 
+export const resetGame = () => {
+    playerHand = [];
+    dealerHand = [];
+    playerScoreSum = 0;
+    dealerScoreSum = 0;
+};
+
 export const turnHelper = (turn) => {
-    if (turn === 'player') {
-        takeCard('player');
-    } else if (turn === 'firstDealer') {
-        takeCard('firstDealer');
-    } else if (turn === 'dealer') {
-        while (dealerScoreSum < 17) {
-            takeCard('dealer');
-        }
+    if (turn === 'dealer') {
+        while (dealerScoreSum < 17) takeCard('dealer');
+    } else {
+        takeCard(turn);
     }
 }
-
-
 //* This function allows us to take a card from the deck------
 const takeCard = (turn) => {
-
     if (turn === 'player') {
         const card = deck.pop();
         playerHand.push(card.substring(0, card.length - 1));

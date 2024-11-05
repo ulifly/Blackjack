@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
-import { deckCreation } from './gamelogic.mjs'
+import { deckCreation, resetGame } from './gamelogic.mjs'
 import { turnHelper } from './gamelogic.mjs'
 
 const deck = deckCreation();
@@ -42,6 +42,11 @@ io.on('connection', (socket) => {
       socket.emit('gameSessionLog', playerName);
     }
     console.log({ players });
+  });
+
+  socket.on('newGame', () => {
+    //deckCreation(); //!check here validate if the deck is less than 25% of the total cards, if so, create a new deck
+    resetGame();
   });
 
   socket.on('takeCard', (turn) => {

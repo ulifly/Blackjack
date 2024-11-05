@@ -1,8 +1,12 @@
 
+//TODO add win loss and draw counters and display them on the screen
+//TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 //TODO reset points when a new game starts
 
+//Todo change the buttons to nicer ones
 //TODO add flip card animations and sounds
+//TODO add multiplayer functionality (5 players to the table)
 //TODO check for player reconnection and continue the game(game session - game state)
 //TODO when on play the new player should be able to see the game in progress but not to play until the game is over
 //TODO add a chat to the game
@@ -47,7 +51,6 @@ socket.on('takeCardR', (data) => {
 
 //* functions -------------------------------
 
-
 const logToServer = (playerName) => {
   socket.emit('logToServer', playerName)
 }
@@ -56,6 +59,8 @@ const logToServer = (playerName) => {
 const newGame = () => {
   socket.emit('newGame');
   turn = 'firstDealer';
+  playerCards.innerHTML = '';
+  dealerCards.innerHTML = '';
   takeCard(turn);
   takeCardButton.disabled = false;
   standButton.disabled = false;
@@ -86,7 +91,7 @@ const stand = () => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
-  //newGameButton.disabled = false;
+  newGameButton.disabled = false;
 }
 
 
