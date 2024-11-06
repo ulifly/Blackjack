@@ -34,7 +34,7 @@ socket.on('gameSessionLog', playerName => {
   loginScreen.remove();
   setTimeout(() => {
     gameScreen.classList.remove('hidden-content');
-  }, 400);
+  }, 300);
   document.querySelector('#playerN').innerHTML = playerName + " - ";
 })
 
@@ -47,7 +47,12 @@ socket.on('takeCardR', (data) => {
   showCard(card);
 })
 
+socket.on('winnerR', (data) => { //!emit winner on console
+  data === 'player' ? console.log('You win') : console.log('You lose');
+})
 //------------------------------------------
+
+
 
 
 //* functions -------------------------------
@@ -55,6 +60,10 @@ socket.on('takeCardR', (data) => {
 const logToServer = (playerName) => {
   socket.emit('logToServer', playerName)
 }
+
+
+
+
 
 //* This function starts a new game----------------
 const newGame = () => {
@@ -76,10 +85,20 @@ const newGame = () => {
 //-----------------------------------------------
 
 
+
+
+
+//* This function takes a card from the deck
 const takeCard = (turn) => {
   socket.emit('takeCard', turn);
 }
+//-----------------------------------------------
 
+
+
+
+
+//* This function shows the card in the screen
 const showCard = (card) => {
   if (turn === 'player') {
     playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
@@ -87,6 +106,12 @@ const showCard = (card) => {
     dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }
 }
+//-----------------------------------------------
+
+const showLostWin = (data) => {
+  
+}
+
 
 const stand = () => {
   turn = 'dealer';
@@ -94,17 +119,6 @@ const stand = () => {
   takeCard(turn);
   newGameButton.disabled = false;
 }
-
-
-// const dealerTurn = () => {);
-
-//       if(dealerScoreSum > 21 && dealerHand.includes('A')) {
-//         dealerHand.splice(dealerHand.indexOf('A'), 1);
-//         dealerScoreSum -= 10;
-//       }
-// }
-
-
 document.getElementById('game-login').addEventListener('submit', function (event) {
   event.preventDefault();
 
@@ -125,13 +139,6 @@ newGameButton.addEventListener('click', () => {
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
   playerCard = takeCard(turn);
-
-
-  // if(playerScoreSum > 21 && playerHand.includes('A')) {
-  //   playerHand.splice(playerHand.indexOf('A'), 1);
-  //   console.log(playerHand);
-  //   playerScoreSum -= 10;
-  // }
 
 
   // if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs

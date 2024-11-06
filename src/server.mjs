@@ -4,8 +4,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
-import { deckCreation, resetGame } from './gamelogic.mjs'
-import { turnHelper } from './gamelogic.mjs'
+import { deckCreation, resetGame, turnHelper } from './gamelogic.mjs'
+
 
 const deck = deckCreation();
 console.log(deck)
@@ -60,6 +60,10 @@ io.on('connection', (socket) => {
 
 export const cardEmitter = (data) => {
   io.emit('takeCardR', data);
+};
+
+export const winnerEmitter = (data) => { //!emit winner
+  io.emit('winnerR', data);
 };
 
 server.listen(PORT, () => {
