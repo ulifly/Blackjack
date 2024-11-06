@@ -22,6 +22,7 @@ const playerPoints = document.querySelector('#playerPoints');
 const dealerPoints = document.querySelector('#dealerPoints');
 const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
+const winnerMessage = document.querySelector('#winnerMessage');
 
 let turn = 'dealer';
 
@@ -35,7 +36,7 @@ socket.on('gameSessionLog', playerName => {
   setTimeout(() => {
     gameScreen.classList.remove('hidden-content');
   }, 300);
-  document.querySelector('#playerN').innerHTML = playerName + " - ";
+  document.querySelector('#playerN').innerHTML = playerName + " ";
 })
 
 socket.on('takeCardR', (data) => {
@@ -47,12 +48,11 @@ socket.on('takeCardR', (data) => {
   showCard(card);
 })
 
-socket.on('winnerR', (data) => { //!emit winner on console
-  data === 'player' ? console.log('You win') : console.log('You lose');
+socket.on('winnerR', (data) => {
+  data === 'player' ? showLostWin('You win') : showLostWin('You lose');//!error here
+
 })
 //------------------------------------------
-
-
 
 
 //* functions -------------------------------
@@ -60,9 +60,6 @@ socket.on('winnerR', (data) => { //!emit winner on console
 const logToServer = (playerName) => {
   socket.emit('logToServer', playerName)
 }
-
-
-
 
 
 //* This function starts a new game----------------
@@ -85,18 +82,11 @@ const newGame = () => {
 //-----------------------------------------------
 
 
-
-
-
-//* This function takes a card from the deck
+//* This function takes a card from the deck-----
 const takeCard = (turn) => {
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
-
-
-
-
 
 //* This function shows the card in the screen
 const showCard = (card) => {
@@ -108,10 +98,11 @@ const showCard = (card) => {
 }
 //-----------------------------------------------
 
+//* This function shows the win or lost message-----
 const showLostWin = (data) => {
-  
+  data === 'You win' ? winnerMessage.style.color = 'green' : winnerMessage.style.color = 'red';//!error here
 }
-
+//--------------------------------------------------
 
 const stand = () => {
   turn = 'dealer';
@@ -128,31 +119,17 @@ document.getElementById('game-login').addEventListener('submit', function (event
 })
 
 
-//*init game-----------
+//*init game----------------------------------------
 takeCardButton.disabled = true;
 standButton.disabled = true;
 newGameButton.addEventListener('click', () => {
   newGame();
 });
-//---------------------
+//-----------------------------------------------
 
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
   playerCard = takeCard(turn);
-
-
-  // if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs
-  //   console.log('You lose');
-  //   takeCardButton.disabled = true;
-  //   dealerTurn();
-  // } else if (playerScoreSum === 21) {
-  //   console.log('You win');
-  //   takeCardButton.disabled = true;
-  //   dealerTurn();
-  // }
-  // // playerScoreSum === 21 ? console.log('You win') 
-  // // : playerScoreSum > 21 ? console.log('You lose'): null;
-
 });
 
 //* listens to the event of the button stand and call the function to take the dealer turn
@@ -161,17 +138,5 @@ standButton.addEventListener('click', () => {
   takeCardButton.disabled = true;
   standButton.disabled = true;
   stand();
-
-  // if (dealerScoreSum > 21 || dealerScoreSum < playerScoreSum ) {
-  //   console.log('You win');
-  //   console.log({dealerScoreSum, playerScoreSum});
-  // } else if (dealerScoreSum === playerScoreSum) {
-  //   console.log('It is a draw');
-  // } else {
-  //   console.log('You lose');
-  // }
-
-  // // dealerScoreSum > 21 || dealerScoreSum < playerScoreSum ? console.log('You win') 
-  // // : dealerScoreSum === playerScoreSum ? console.log('It is a draw') : console.log('You lose');
 });
 
