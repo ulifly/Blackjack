@@ -49,13 +49,7 @@ socket.on('takeCardR', (data) => {
 })
 
 socket.on('winnerR', (data) => {
-  if (data === 'player') {
-    showLostWin('You win');
-  } else if (data === 'dealer') {
-    showLostWin('You lose');
-  } else {
-    showLostWin('It\'s a draw');
-  }
+  showLostWin(data);
 })
 //------------------------------------------
 
@@ -103,14 +97,10 @@ const showCard = (card) => {
 }
 //-----------------------------------------------
 
-//* This function shows the win or lost message-----
+//* This function shows the win or lost message----- 
 const showLostWin = (data) => {
-  console.log(data);
-  if (winnerMessage) {
-    document.querySelector('#winnerMessage').innerHTML = data;
-  } else {
-    console.error('winnerMessage element not found');
-  }
+  winnerMessage.innerHTML = data; //!change this 
+
 }
 //--------------------------------------------------
 

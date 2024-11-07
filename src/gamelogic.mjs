@@ -60,7 +60,7 @@ const takeCard = (turn) => {
             playerScoreSum -= 10;
         }
         if (playerScoreSum > 21) {
-            winnerEmitter('dealer'); //!emit winner
+            winnerEmitter('dealer'); //!emit winner change this to blackjack
         }
         cardEmitter({ card, playerScoreSum, dealerScoreSum });
     } else {
