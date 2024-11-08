@@ -1,10 +1,10 @@
 
+//Todo change the buttons to nicer ones 
 //TODO change take card order to player, dealer backward, player, dealer
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 //TODO reset points when a new game starts
 
-//Todo change the buttons to nicer ones
 //TODO add a background image to the game
 //TODO change winner message for a nicer one
 //TODO add flip card animations and sounds
@@ -49,7 +49,12 @@ socket.on('takeCardR', (data) => {
 })
 
 socket.on('winnerR', (data) => {
-  showLostWin(data);
+  setTimeout(() => {
+    showLostWin(data);
+    newGameButton.disabled = false;
+    takeCardButton.disabled = true;
+    standButton.disabled = true;
+  }, 500);
 })
 //------------------------------------------
 
@@ -105,7 +110,7 @@ const showLostWin = (data) => {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
   } else {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
-  } 
+  }
 
 }
 //--------------------------------------------------
