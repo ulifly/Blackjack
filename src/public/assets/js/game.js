@@ -1,11 +1,12 @@
 
-//TODO add win loss and draw counters and display them on the screen
 //TODO change take card order to player, dealer backward, player, dealer
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 //TODO reset points when a new game starts
 
 //Todo change the buttons to nicer ones
+//TODO add a background image to the game
+//TODO change winner message for a nicer one
 //TODO add flip card animations and sounds
 //TODO add multiplayer functionality (5 players to the table)
 //TODO check for player reconnection and continue the game(game session - game state)
@@ -22,7 +23,6 @@ const playerPoints = document.querySelector('#playerPoints');
 const dealerPoints = document.querySelector('#dealerPoints');
 const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
-const winnerMessage = document.querySelector('#winnerMessage');
 
 let turn = 'dealer';
 
@@ -99,7 +99,13 @@ const showCard = (card) => {
 
 //* This function shows the win or lost message----- 
 const showLostWin = (data) => {
-  winnerMessage.innerHTML = data; //!change this 
+  if (data === 'player') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
+  } else if (data === 'dealer') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
+  } else {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
+  } 
 
 }
 //--------------------------------------------------

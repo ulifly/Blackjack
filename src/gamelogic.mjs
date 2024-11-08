@@ -51,6 +51,9 @@ export const turnHelper = (turn) => {
 }
 //* This function allows us to take a card from the deck------
 const takeCard = (turn) => {
+    if (deck.length < 10) {
+        console.log('deck is less than 10 cards, creating a new deck');
+    }
     if (turn === 'player') {
         const card = deck.pop();
         playerHand.push(card.substring(0, card.length - 1));
