@@ -19,16 +19,22 @@
 
 //refactor to use in gamelogic.mjs
 
-//* This function allows us to take a card from the deck------
-const takeCard = (turn) => {
-    const card = deck.pop();
-    const hand = turn === 'player' ? playerHand : dealerHand;
-    const scoreSum = turn === 'player' ? playerScoreSum : dealerScoreSum;
 
-    hand.push(card.substring(0, card.length - 1));
-    scoreSum += cardValue(card);
-    cardEmitter({ card, playerScoreSum, dealerScoreSum });
-
-    if (turn === 'player') playerScoreSum = scoreSum;
-    else dealerScoreSum = scoreSum;
-};
+//* This function starts a new game----------------
+const newGame = () => {
+    socket.emit('newGame');
+    turn = 'firstDealer';
+    playerCards.innerHTML = '';
+    dealerCards.innerHTML = '';
+    takeCard(turn);
+    takeCardButton.disabled = false;
+    standButton.disabled = false;
+    setTimeout(() => {
+      turn = 'player';
+    }, 500); // Delay to simulate dealer's turn
+    newGameButton.disabled = true;
+    setTimeout(() => {
+      dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
+    }, 600);
+  }
+  //-----------------------------------------------

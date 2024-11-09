@@ -70,25 +70,37 @@ const logToServer = (playerName) => {
 //* This function starts a new game----------------
 const newGame = () => {
   socket.emit('newGame');
-  turn = 'firstDealer';
+  
   playerCards.innerHTML = '';
   dealerCards.innerHTML = '';
+
+  turn = 'player';
   takeCard(turn);
+
+  dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
+  
   takeCardButton.disabled = false;
   standButton.disabled = false;
   setTimeout(() => {
     turn = 'player';
   }, 500); // Delay to simulate dealer's turn
   newGameButton.disabled = true;
+
   setTimeout(() => {
-    dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
-  }, 600);
+    turn = 'firstDealer';
+    takeCard(turn);
+  }, 500);
+  
+  setTimeout(() => {
+    turn = 'player';
+  }, 600); // Delay to simulate dealer's turn
 }
 //-----------------------------------------------
 
 
 //* This function takes a card from the deck-----
 const takeCard = (turn) => {
+  console.log(turn)
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
