@@ -9,7 +9,6 @@ body {
   width: 150px;
   left: 100px;
   top: 30px;
-  margin-left: -105px;
 }
 
 #player-cards,
@@ -17,6 +16,10 @@ body {
   display: flex;
   height: 230px;
   position: relative;
+}
+
+.player-cards {
+  margin-left: -105px;
 }
 
 .hidden-content {
