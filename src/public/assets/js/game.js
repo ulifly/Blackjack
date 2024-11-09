@@ -96,7 +96,7 @@ const takeCard = (turn) => {
 //* This function shows the card in the screen
 const showCard = (card) => {
   if (turn === 'player') {
-    playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
+    playerCards.innerHTML += `<img class = "game-card player-cards" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   } else {
     dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }
