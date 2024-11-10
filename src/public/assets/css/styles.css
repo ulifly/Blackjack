@@ -1,31 +1,55 @@
 html,
 body {
-  margin: 0;
   background-color: #2f4f30;
   color: azure;
 }
-
-
-.title {
-  text-align: center;
-  background-color: black;
-  color: white;
-  padding: 20px;
-  font-size: 25px;
-}
-
-
 
 .game-card {
   position: relative;
   width: 150px;
   left: 100px;
   top: 30px;
-  margin-left: -75px;
 }
 
 #player-cards,
 #dealer-cards {
+  display: flex;
   height: 230px;
+  position: relative;
+}
 
+.player-cards {
+  margin-left: -105px;
+}
+
+.hidden-content {
+  display: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.form-custom {
+  color: black;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.winnerMessage {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: auto;
+  z-index: 10;
 }

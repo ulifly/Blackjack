@@ -1,120 +1,156 @@
-let deck = [];
-const figures = ['C', 'D', 'H', 'S'];
-const specialFigures = ['J', 'Q', 'K', 'A'];
+
+//Todo change the buttons to nicer ones 
+
+//TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
+//TODO create button and logic to logout from server
+//TODO reset points when a new game starts
+
+//TODO add a background image to the game
+//TODO change winner message for a nicer one
+//TODO add flip card animations and sounds
+//TODO add multiplayer functionality (3 players to the table)
+//TODO check for player reconnection and continue the game(game session - game state)
+//TODO when on play the new player should be able to see the game in progress but not to play until the game is over
+//TODO add a chat to the game
 
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
+const newGameButton = document.querySelector('#new-game');
 const takeCardButton = document.querySelector('#take-card');
+const standButton = document.querySelector('#stand-Button');
 const playerPoints = document.querySelector('#playerPoints');
 const dealerPoints = document.querySelector('#dealerPoints');
-const standButton = document.querySelector('#stand-Button');
+const loginScreen = document.querySelector('#loginScreen');
+const gameScreen = document.querySelector('#mainGame');
 
-let playerHand = [];
-let dealerHand = [];
-let playerScoreSum = 0;
-let dealerScoreSum = 0;
-let turn = 'player';
+let turn = 'dealer';
 
-// This function creates a new deck of cards and shuffles it
-const deckCreation = () => {
-  for (let i = 2; i <= 10; i++) {
-      for (figure of figures) {
-          deck.push(i + figure);
-      }
-    }
-    for (figure of figures) {
-        for (specialFigure of specialFigures) {
-            deck.push(specialFigure + figure);
-        }
-    }
-    deck = _.shuffle(deck);
+//**  Sockets listeners -----------------------
+socket.on('roomFull', data => {
+  console.log(data);
+})
 
-    return deck;
-  }
-  
-  deckCreation();
-  //TODO and valide at the end of every play if the deck length is less than 25% of the total cards, 
-  //TODO this is going to be removed, im going to create 6 decks as in casino rules, 
-  //TODO then create a new deck
+socket.on('gameSessionLog', playerName => {
+  loginScreen.remove();
+  setTimeout(() => {
+    gameScreen.classList.remove('hidden-content');
+  }, 300);
+  document.querySelector('#playerN').innerHTML = playerName + " ";
+})
 
-//! test
-// deck = ['2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C', 'JC', 
-//         'QC', 'KC', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', 
-//         '10D', 'JD', 'QD', 'KD', 'AD', '2H', '3H', '4H', '5H', '6H', 
-//         '7H', '8H', '9H', '10H', 'JH', 'QH', 'KH', 'AH', '4S', '5S', 
-//         '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS', '3S', 'AS', 'AC','2S'];
+socket.on('takeCardR', (data) => {
+  const card = data.card;
+  const playerScoreSum = data.playerScoreSum;
+  const dealerScoreSum = data.dealerScoreSum;
+  playerPoints.innerHTML = playerScoreSum;
+  dealerPoints.innerHTML = dealerScoreSum;
+  showCard(card);
+})
 
+socket.on('winnerR', (data) => {
+  setTimeout(() => {
+    showLostWin(data);
+    newGameButton.disabled = false;
+    takeCardButton.disabled = true;
+    standButton.disabled = true;
+  }, 500);
+})
+//------------------------------------------
 
 
-//* This function allows us to take a card
+//* functions -------------------------------
 
-const takeCard = () => {
-  //TODO--------------------------------------------------------------
-  return deck.pop();
+const logToServer = (playerName) => {
+  socket.emit('logToServer', playerName)
 }
 
 
-//* This function allows us to take the value of a card
+//* This function starts a new game----------------
+const newGame = () => {
+  socket.emit('newGame');
 
-const cardValue = (card) => {
-  const value = card.substring(0, card.length - 1);
-  return (isNaN(value)) ? (value === 'A') ? 11 : 10 : value * 1; //Todo this function is going to be removed when the function commented is implemented
+  playerCards.innerHTML = '';
+  dealerCards.innerHTML = '';
+
+  turn = 'player';
+  takeCard(turn);
+
+  dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
+
+  takeCardButton.disabled = false;
+  standButton.disabled = false;
+  newGameButton.disabled = true;
+
+  setTimeout(() => {
+    turn = 'firstDealer';
+    takeCard(turn);
+  }, 800);
+
+  setTimeout(() => {
+    turn = 'player';
+    takeCard(turn);
+  }, 1000); // Delay to simulate player's turn
 }
+//-----------------------------------------------
 
 
-//* This function allows us to show the cards in the game screen
-const showCards = (turn, card) => {
+//* This function takes a card from the deck-----
+const takeCard = (turn) => {
+  console.log(turn)
+  socket.emit('takeCard', turn);
+}
+//-----------------------------------------------
+
+//* This function shows the card in the screen
+const showCard = (card) => {
   if (turn === 'player') {
-    playerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
+    playerCards.innerHTML += `<img class = "game-card player-cards" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   } else {
     dealerCards.innerHTML += `<img class = "game-card" src="/Assets/cartas/${card}.png" alt="card ${card}">`;
   }
 }
+//-----------------------------------------------
 
-const dealerTurn = () => {
-      dealerCard = takeCard();
-      showCards('dealer', dealerCard);
-      dealerScoreSum += cardValue(dealerCard);
-      dealerPoints.innerHTML = dealerScoreSum;
-      dealerHand.push(dealerCard.substring(0, dealerCard.length - 1));
-  
-      if(dealerScoreSum > 21 && dealerHand.includes('A')) {
-        dealerHand.splice(dealerHand.indexOf('A'), 1);
-        dealerScoreSum -= 10;
-      }
+//* This function shows the win or lost message----- 
+const showLostWin = (data) => {
+  if (data === 'player') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
+  } else if (data === 'dealer') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
+  } else {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
+  }
+
 }
+//--------------------------------------------------
 
+const stand = () => {
+  turn = 'dealer';
+  dealerCards.removeChild(document.getElementById('backCard'));
+  takeCard(turn);
+  newGameButton.disabled = false;
+}
+document.getElementById('game-login').addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  //obtain name from the form
+  const playerName = document.getElementById('playerName').value;
+  logToServer(playerName);
+})
+
+
+//*init game----------------------------------------
+takeCardButton.disabled = true;
+standButton.disabled = true;
+newGameButton.addEventListener('click', () => {
+  newGame();
+});
+//-----------------------------------------------
 
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
-  playerCard = takeCard();
-
-  playerHand.push(playerCard.substring(0, playerCard.length - 1));
-  console.log(playerHand);
-  showCards('player', playerCard);
-  playerScoreSum += cardValue(playerCard);
-
-  if(playerScoreSum > 21 && playerHand.includes('A')) {
-    playerHand.splice(playerHand.indexOf('A'), 1);
-    console.log(playerHand);
-    playerScoreSum -= 10;
-  }
-
-  playerPoints.innerHTML = playerScoreSum;
-
-  if (playerScoreSum > 21) { //TODO change this to wait for the dealer to play and add validations and remove console.logs
-    console.log('You lose');
-    takeCardButton.disabled = true;
-    dealerTurn();
-  } else if (playerScoreSum === 21) {
-    console.log('You win');
-    takeCardButton.disabled = true;
-    dealerTurn();
-  }
-  // playerScoreSum === 21 ? console.log('You win') 
-  // : playerScoreSum > 21 ? console.log('You lose'): null;
-  
+  playerCard = takeCard(turn);
 });
 
 //* listens to the event of the button stand and call the function to take the dealer turn
@@ -122,23 +158,6 @@ takeCardButton.addEventListener('click', () => {
 standButton.addEventListener('click', () => {
   takeCardButton.disabled = true;
   standButton.disabled = true;
-  
-  while (dealerScoreSum < 17) {
-    dealerTurn();
-  }
-  //if (dealerScoreSum < 17) {setTimeout(()=> {dealerTurn()}, 1000);}
-
-  if (dealerScoreSum > 21 || dealerScoreSum < playerScoreSum ) {
-    console.log('You win');
-    console.log({dealerScoreSum, playerScoreSum});
-  } else if (dealerScoreSum === playerScoreSum) {
-    console.log('It is a draw');
-  } else {
-    console.log('You lose');
-  }
-  // dealerScoreSum > 21 || dealerScoreSum < playerScoreSum ? console.log('You win') 
-  // : dealerScoreSum === playerScoreSum ? console.log('It is a draw') : console.log('You lose');
+  stand();
 });
-
-
 
