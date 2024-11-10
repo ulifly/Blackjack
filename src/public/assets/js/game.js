@@ -40,12 +40,12 @@ socket.on('gameSessionLog', playerName => {
 })
 
 socket.on('takeCardR', (data) => {
-    const card = data.card;
-    const playerScoreSum = data.playerScoreSum;
-    const dealerScoreSum = data.dealerScoreSum;
-    playerPoints.innerHTML = playerScoreSum; 
-    dealerPoints.innerHTML = dealerScoreSum;
-    showCard(card);
+  const card = data.card;
+  const playerScoreSum = data.playerScoreSum;
+  const dealerScoreSum = data.dealerScoreSum;
+  playerPoints.innerHTML = playerScoreSum;
+  dealerPoints.innerHTML = dealerScoreSum;
+  showCard(card);
 })
 
 socket.on('winnerR', (data) => {
@@ -69,7 +69,7 @@ const logToServer = (playerName) => {
 //* This function starts a new game----------------
 const newGame = () => {
   socket.emit('newGame');
-  
+
   playerCards.innerHTML = '';
   dealerCards.innerHTML = '';
 
@@ -77,22 +77,20 @@ const newGame = () => {
   takeCard(turn);
 
   dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
-  
+
   takeCardButton.disabled = false;
   standButton.disabled = false;
-  setTimeout(() => {
-    turn = 'player';
-  }, 500); // Delay to simulate dealer's turn
   newGameButton.disabled = true;
 
   setTimeout(() => {
     turn = 'firstDealer';
     takeCard(turn);
-  }, 500);
-  
+  }, 800);
+
   setTimeout(() => {
     turn = 'player';
-  }, 600); // Delay to simulate dealer's turn
+    takeCard(turn);
+  }, 1000); // Delay to simulate player's turn
 }
 //-----------------------------------------------
 
