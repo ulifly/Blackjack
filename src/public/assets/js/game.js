@@ -1,7 +1,6 @@
 
 //Todo change the buttons to nicer ones 
 
-//TODO change take card order to player, dealer backward, player, dealer
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 //TODO reset points when a new game starts
@@ -41,12 +40,12 @@ socket.on('gameSessionLog', playerName => {
 })
 
 socket.on('takeCardR', (data) => {
-  const card = data.card;
-  const playerScoreSum = data.playerScoreSum;
-  const dealerScoreSum = data.dealerScoreSum;
-  playerPoints.innerHTML = playerScoreSum; //TODO change this to a function or not ?
-  dealerPoints.innerHTML = dealerScoreSum;
-  showCard(card);
+    const card = data.card;
+    const playerScoreSum = data.playerScoreSum;
+    const dealerScoreSum = data.dealerScoreSum;
+    playerPoints.innerHTML = playerScoreSum; 
+    dealerPoints.innerHTML = dealerScoreSum;
+    showCard(card);
 })
 
 socket.on('winnerR', (data) => {

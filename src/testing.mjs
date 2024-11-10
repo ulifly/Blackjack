@@ -23,6 +23,7 @@
 //* This function starts a new game----------------
 const newGame = () => {
     socket.emit('newGame');
+    
     turn = 'firstDealer';
     playerCards.innerHTML = '';
     dealerCards.innerHTML = '';

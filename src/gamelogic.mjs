@@ -43,12 +43,14 @@ export const resetGame = () => {
 
 export const turnHelper = (turn) => {
     if (turn === 'dealer') {
-        while (dealerScoreSum < 17) takeCard('dealer');
+        while (dealerScoreSum < 17) 
+        takeCard('dealer');
         winEvaluator();
     } else {
         takeCard(turn);
     }
 }
+
 //* This function allows us to take a card from the deck------
 const takeCard = (turn) => {
     if (deck.length < 10) {
