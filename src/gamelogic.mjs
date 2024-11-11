@@ -1,6 +1,3 @@
-//TODO Validate playerScoreSum and dealerScoreSum, if the playerScoreSum is greater than 21, the player loses,
-//TODO on the function deckCreation, create a new deck with 52 cards,
-
 //TODO validate at the end of every play if the deck length is less than 25% of the total cards, if so, create a new deck
 //TODO im going to create 6 decks as in casino rules, and shuffle them all together,
 import _ from 'underscore';
@@ -43,8 +40,8 @@ export const resetGame = () => {
 
 export const turnHelper = (turn) => {
     if (turn === 'dealer') {
-        while (dealerScoreSum < 17) 
-        takeCard('dealer');
+        while (dealerScoreSum < 17)
+            takeCard('dealer');
         winEvaluator();
     } else {
         takeCard(turn);
