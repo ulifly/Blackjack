@@ -89,6 +89,12 @@ const cardValue = (card) => {
 const winEvaluator = () => {
     if (playerScoreSum > 21) {
         winnerEmitter('dealer'); //!emit winner
+    } else if (playerScoreSum === 21 && playerHand.length === 2) {
+        if (dealerScoreSum === 21 && dealerHand.length === 2) {
+            winnerEmitter('tie'); //!emit winner 
+        } else {
+            winnerEmitter('player'); //!emit winner falta emitir blackjack
+        }
     } else if (dealerScoreSum > 21) {
         winnerEmitter('player'); //!emit winner
     } else if (dealerScoreSum === 21 && playerScoreSum != 21) {

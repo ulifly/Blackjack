@@ -113,6 +113,11 @@ const showCard = (card) => {
 //-----------------------------------------------
 
 //* This function shows the win or lost message----- 
+
+//! aquí va el blackjack en vez de winner que hace falta 
+//! también falta generar la imagen y validar si el dealer tiene As
+//! si el dealer tiene As implementar los seguros
+
 const showLostWin = (data) => {
   if (data === 'player') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
