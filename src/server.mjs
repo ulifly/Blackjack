@@ -21,7 +21,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 const players = {};
-let plyerCount = 1;
+let playerCount = 1;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
     if (Object.keys(players).length >= 4) { //TODO change the number for more players when implemented
       socket.emit('roomFull', true)
     } else {
-      players[plyerCount] = playerName;
-      plyerCount++;
+      players[playerCount] = playerName;
+      playerCount++;
       socket.emit('gameSessionLog', playerName);
     }
     console.log({ players });

@@ -15,21 +15,36 @@ let dealerScoreSum = 0;
 
 
 
-export const deckCreation = () => {
-    for (let i = 2; i <= 10; i++) {
-        for (const figure of figures) {
-            deck.push(i + figure);
-        }
-    }
-    for (const figure of figures) {
-        for (const specialFigure of specialFigures) {
-            deck.push(specialFigure + figure);
-        }
-    }
-    deck = _.shuffle(deck);
+// export const deckCreation = () => {
+//     for (let i = 2; i <= 10; i++) {
+//         for (const figure of figures) {
+//             deck.push(i + figure);
+//         }
+//     }
+//     for (const figure of figures) {
+//         for (const specialFigure of specialFigures) {
+//             deck.push(specialFigure + figure);
+//         }
+//     }
+//     deck = _.shuffle(deck);
 
+//     return deck;
+// }
+
+export const deckCreation = () => {
+    deck = [
+        'QD', 'QS',  '2H',  '5C',  '5D', '4H', 'KS',
+        '9D', '5S',  '3S',  'AH',  '8H', 'AS', 'JC',
+        '3H', '9C',  'AD',  '4D',  'KD', '7S', '10C',
+        '7H', '10H', '10S', '2C',  '8C', 'KH', 'QH',
+        'QC', '6D',  '2S',  '9S',  '9H', '7C', '5H',
+        '8D', '6H',  '6C',  '10D', '4S', '7D', '3C',
+        '2D', '6S',  'JH',  'JD',  'KC', '4C', '8S',
+        'JS', '3D',  'AC'
+      ];
     return deck;
 }
+
 
 export const resetGame = () => {
     playerHand = [];
@@ -93,7 +108,7 @@ const winEvaluator = () => {
         if (dealerScoreSum === 21 && dealerHand.length === 2) {
             winnerEmitter('tie'); //!emit winner 
         } else {
-            winnerEmitter('player'); //!emit winner falta emitir blackjack
+            winnerEmitter('blackjack'); //!emit winner falta emitir blackjack
         }
     } else if (dealerScoreSum > 21) {
         winnerEmitter('player'); //!emit winner

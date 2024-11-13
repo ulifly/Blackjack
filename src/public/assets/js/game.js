@@ -121,7 +121,9 @@ const showCard = (card) => {
 const showLostWin = (data) => {
   if (data === 'player') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
-  } else if (data === 'dealer') {
+  } else if (data === 'blackjack') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/bj.png" alt="logo blackjack">`;
+  }  else if (data === 'dealer') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
   } else {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
