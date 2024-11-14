@@ -78,8 +78,6 @@ const newGame = () => {
 
   dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
 
-  takeCardButton.disabled = false;
-  standButton.disabled = false;
   newGameButton.disabled = true;
 
   setTimeout(() => {
@@ -90,7 +88,13 @@ const newGame = () => {
   setTimeout(() => {
     turn = 'player';
     takeCard(turn);
+    takeCardButton.disabled = false;
+    standButton.disabled = false;
   }, 1000); // Delay to simulate player's turn
+
+  //!aquí debería enviar el blackjack eval
+  //!también revisar que no se pueda presionar el botón de pedir carta hasta evaluar
+
 }
 //-----------------------------------------------
 
@@ -123,7 +127,7 @@ const showLostWin = (data) => {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
   } else if (data === 'blackjack') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/bj.png" alt="logo blackjack">`;
-  }  else if (data === 'dealer') {
+  } else if (data === 'dealer') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
   } else {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
