@@ -1,6 +1,7 @@
 
 //Todo change the buttons to nicer ones 
 
+//TODO add bets and chips to the game
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 
@@ -56,6 +57,22 @@ socket.on('winnerR', (data) => {
     standButton.disabled = true;
   }, 500);
 })
+
+socket.on('blackjackEvalR', (data) => {
+  if (data === 'blackjack') {
+    showLostWin('blackjack');
+    newGameButton.disabled = false;
+    takeCardButton.disabled = true;
+    standButton.disabled = true;
+  } else if (data === 'blackjack1to1') { //!falta implementar la lógica del seguro
+    confirm('deseas pago 1:1');//!esto deba cambiar
+    showLostWin('blackjack');
+    newGameButton.disabled = false;
+    takeCardButton.disabled = true;
+    standButton.disabled = true;
+  }
+})
+
 //------------------------------------------
 
 
@@ -88,12 +105,13 @@ const newGame = () => {
   setTimeout(() => {
     turn = 'player';
     takeCard(turn);
-    takeCardButton.disabled = false;
-    standButton.disabled = false;
-  }, 1000); // Delay to simulate player's turn
 
-  //!aquí debería enviar el blackjack eval
-  //!también revisar que no se pueda presionar el botón de pedir carta hasta evaluar
+    setTimeout(() => {
+      takeCardButton.disabled = false;
+      standButton.disabled = false;
+    }, 600);
+    socket.emit("blackjackEval");
+  }, 1000); // Delay to simulate player's turn
 
 }
 //-----------------------------------------------
@@ -117,11 +135,6 @@ const showCard = (card) => {
 //-----------------------------------------------
 
 //* This function shows the win or lost message----- 
-
-//! aquí va el blackjack en vez de winner que hace falta 
-//! también falta generar la imagen y validar si el dealer tiene As
-//! si el dealer tiene As implementar los seguros
-
 const showLostWin = (data) => {
   if (data === 'player') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
@@ -132,7 +145,6 @@ const showLostWin = (data) => {
   } else {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
   }
-
 }
 //--------------------------------------------------
 

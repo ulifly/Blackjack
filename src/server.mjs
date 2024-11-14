@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
-import { deckCreation, resetGame, turnHelper } from './gamelogic.mjs'
+import { deckCreation, resetGame, turnHelper, blackjackEvaluator } from './gamelogic.mjs'
 
 
 const deck = deckCreation();
@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+//* Socket connections and listeners--------------
 io.on('connection', (socket) => {
   console.log('a user connected');
 
@@ -52,17 +53,27 @@ io.on('connection', (socket) => {
     turnHelper(turn)
   });
 
+  socket.on("blackjackEval", () => {
+    blackjackEvaluator();
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+
 });
+//----------------------------------------------
 
 export const cardEmitter = (data) => {
   io.emit('takeCardR', data);
 };
 
-export const winnerEmitter = (data) => { //!emit winner
+export const winnerEmitter = (data) => {
   io.emit('winnerR', data);
+};
+
+export const blackjackEmitter = (data) => {
+  io.emit('blackjackEvalR', data);
 };
 
 server.listen(PORT, () => {
