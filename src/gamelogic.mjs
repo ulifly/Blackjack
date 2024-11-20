@@ -29,6 +29,7 @@ let dealerScoreSum = 0;
 //     return deck;
 // }
 
+//! debugging deck creation
 export const deckCreation = () => {
     deck = [
         'QD', 'QS', '2H', '5C', '5D', '4H', 'KS',

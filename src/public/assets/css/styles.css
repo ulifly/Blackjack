@@ -6,20 +6,28 @@ body {
 
 .game-card {
   position: relative;
-  width: 150px;
-  left: 100px;
-  top: 30px;
+  width: 10vw;
+  /* Ajusta el ancho en función del tamaño de la ventana */
+  max-width: 150px;
+  /* Establece un ancho máximo para evitar que las cartas sean demasiado grandes */
+  margin: 5px;
+  /* Añade un margen para separar las cartas */
 }
 
 #player-cards,
 #dealer-cards {
   display: flex;
-  height: 230px;
+  height: 22vh;
+  /* Ajusta la altura en función del tamaño de la ventana */
   position: relative;
+  flex-wrap: wrap;
+  /* Permite que las cartas se envuelvan en varias filas si es necesario */
+  justify-content: center;
+  /* Centra las cartas horizontalmente */
 }
 
 .player-cards {
-  margin-left: -105px;
+  margin-left: -5vw;
 }
 
 .hidden-content {
@@ -52,4 +60,42 @@ body {
   width: 75%;
   height: auto;
   z-index: 10;
+}
+
+@media (max-width: 768px) {
+
+  #player-cards,
+  #dealer-cards {
+    height: 15vh;
+    /* Ajusta la altura para pantallas más pequeñas */
+  }
+
+  .game-card {
+    width: 7vw;
+    /* Ajusta el ancho para pantallas más pequeñas */
+  }
+
+  .player-cards {
+    margin-left: -2.3vw;
+    /* Ajusta el margen para pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+
+  #player-cards,
+  #dealer-cards {
+    height: 15vh;
+    /* Ajusta la altura para pantallas muy pequeñas */
+  }
+
+  .game-card {
+    width: 7vw;
+    /* Ajusta el ancho para pantallas muy pequeñas */
+  }
+
+  .player-cards {
+    margin-left: -1vw;
+    /* Ajusta el margen para pantallas muy pequeñas */
+  }
 }

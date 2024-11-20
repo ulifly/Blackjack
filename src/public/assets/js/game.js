@@ -24,6 +24,7 @@ const playerPoints = document.querySelector('#playerPoints');
 const dealerPoints = document.querySelector('#dealerPoints');
 const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
+const body = document.querySelector('body');
 
 let turn = 'dealer';
 
@@ -36,6 +37,7 @@ socket.on('gameSessionLog', playerName => {
   loginScreen.remove();
   setTimeout(() => {
     gameScreen.classList.remove('hidden-content');
+    body.classList.remove('d-flex');
   }, 300);
   document.querySelector('#playerN').innerHTML = playerName + " ";
 })
@@ -65,7 +67,6 @@ socket.on('blackjackEvalR', (data) => {
     takeCardButton.disabled = true;
     standButton.disabled = true;
   } else if (data === 'blackjack1to1') { //!falta implementar la lógica del seguro
-    confirm('deseas pago 1:1');//!esto deba cambiar
     showLostWin('blackjack');
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
@@ -183,4 +184,3 @@ standButton.addEventListener('click', () => {
   standButton.disabled = true;
   stand();
 });
-
