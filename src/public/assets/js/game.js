@@ -1,7 +1,10 @@
 
-//Todo change the buttons to nicer ones 
-
+//Todo change the buttons to nicer ones canvas png
+//TODO hide players not playing?
+//TODO add bank for players 
+//! add a bank for the players
 //TODO add bets and chips to the game
+
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
 
