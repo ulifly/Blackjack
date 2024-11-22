@@ -66,7 +66,7 @@ socket.on('blackjackEvalR', (data) => {
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
     standButton.disabled = true;
-  } else if (data === 'blackjack1to1') { //!falta implementar la lógica del seguro
+  } else if (data === 'blackjack1to1') { //TODO falta implementar la lógica del seguro se necesita el modulo de apuestas primero
     showLostWin('blackjack');
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
@@ -110,8 +110,8 @@ const newGame = () => {
     setTimeout(() => {
       takeCardButton.disabled = false;
       standButton.disabled = false;
+      socket.emit("blackjackEval");
     }, 600);
-    socket.emit("blackjackEval");
   }, 1000); // Delay to simulate player's turn
 
 }
