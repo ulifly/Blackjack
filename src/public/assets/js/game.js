@@ -30,6 +30,9 @@ const gameScreen = document.querySelector('#mainGame');
 const body = document.querySelector('body');
 
 let turn = 'dealer';
+let bank = 1000;
+let bet = 0;
+
 
 //**  Sockets listeners -----------------------
 socket.on('roomFull', data => {
@@ -43,6 +46,7 @@ socket.on('gameSessionLog', playerName => {
     body.classList.remove('d-flex');
   }, 300);
   document.querySelector('#playerN').innerHTML = playerName + " ";
+  //document.querySelector('#playerBank').innerHTML = bank;
 })
 
 socket.on('takeCardR', (data) => {
