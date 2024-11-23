@@ -29,6 +29,7 @@ const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
 const body = document.querySelector('body');
 
+
 let turn = 'dealer';
 let bank = 1000;
 let bet = 0;
