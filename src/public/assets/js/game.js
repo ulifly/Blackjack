@@ -1,8 +1,10 @@
 
 //Todo change the buttons to nicer ones canvas png
 //TODO hide players not playing?
-//TODO add bank for players 
-//! add a bank for the players
+
+//!bet win logic
+//!bankrupt logic (game over)
+
 //TODO add bets and chips to the game
 
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
@@ -20,6 +22,7 @@
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
+const bankDisplay = document.querySelector('#bank');
 const newGameButton = document.querySelector('#new-game');
 const takeCardButton = document.querySelector('#take-card');
 const standButton = document.querySelector('#stand-Button');
@@ -28,10 +31,12 @@ const dealerPoints = document.querySelector('#dealerPoints');
 const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
 const body = document.querySelector('body');
+const betInput = document.querySelector('#betN');
+const betDisplay = document.querySelector('#bet');
 
 
 let turn = 'dealer';
-let bank = 1000;
+let bank = 1500;
 let bet = 0;
 
 
@@ -60,15 +65,32 @@ socket.on('takeCardR', (data) => {
 })
 
 socket.on('winnerR', (data) => {
+  console.log(data);
   setTimeout(() => {
+    console.log(data);
     showLostWin(data);
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
     standButton.disabled = true;
+    //data === 'player' ? bank += bet * 2 : null; //!bet win logic needs to be implemented blackjack 1.5x
+    if (data === 'tie') {
+      bank += bet;
+    } else if (data === 'blackjack') {
+      bank += bet * 2.5;
+    } else if (data === 'blackjack1to1') {
+      bank += bet * 2;
+    } else if (data === 'player') {
+      bank += bet * 2;
+    } else {
+      bank += 0;
+    }
+    bet = 0;
+    betDisplay.innerHTML = bet;
+    bankDisplay.innerHTML = bank;
   }, 500);
 })
 
-socket.on('blackjackEvalR', (data) => {
+socket.on('blackjackEvalR', (data) => { //!this have to be implemented in the winnerR listener change also in server
   if (data === 'blackjack') {
     showLostWin('blackjack');
     newGameButton.disabled = false;
@@ -128,7 +150,6 @@ const newGame = () => {
 
 //* This function takes a card from the deck-----
 const takeCard = (turn) => {
-  console.log(turn)
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
@@ -175,7 +196,17 @@ document.getElementById('game-login').addEventListener('submit', function (event
 //*init game----------------------------------------
 takeCardButton.disabled = true;
 standButton.disabled = true;
+bankDisplay.innerHTML = bank;
+//--------------------------------------------------
+
+//*  listens to the event of the button and call the function to start a new game
 newGameButton.addEventListener('click', () => {
+  const betValue = parseInt(betInput.value, 10); //get the bet value
+  bank -= betValue; //subtract the bet from the bank
+  bankDisplay.innerHTML = bank; //update the bank display
+  bet = betValue; //set the bet value
+  betDisplay.innerHTML = bet; //display the bet value
+
   newGame();
 });
 //-----------------------------------------------
@@ -191,4 +222,12 @@ standButton.addEventListener('click', () => {
   takeCardButton.disabled = true;
   standButton.disabled = true;
   stand();
+});
+
+//* Ensure betN does not exceed bank
+betInput.addEventListener('input', () => {
+  let betValue = parseInt(betInput.value, 10);
+  if (betValue > bank) {
+    betInput.value = bank;
+  }
 });
