@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
   console.log('a user connected');
 
   socket.on('logToServer', (playerName) => {
-    if (Object.keys(players).length >= 4) { //TODO change the number for more players when implemented
+    if (Object.keys(players).length >= 100) { //TODO change the number for more players when implemented
       socket.emit('roomFull', true)
     } else {
       players[playerCount] = playerName;

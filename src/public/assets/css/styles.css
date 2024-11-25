@@ -23,6 +23,19 @@ h1 {
   font-size: 3.5rem;
 }
 
+.points {
+  color: rgb(241, 188, 40);
+  text-align: center;
+  font-family: "Tangerine", cursive;
+  font-weight: 800;
+  font-size: 3.5rem;
+  margin-right: 20px;
+}
+
+.betNum {
+  width: 70px;
+}
+
 h2 {
   text-align: center;
   font-family: "Tangerine", cursive;

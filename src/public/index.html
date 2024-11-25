@@ -46,16 +46,18 @@
 
     <div class="row container">
       <div class="col">
-        <h1><span id="playerN">Jugador 1</span> <small id="playerPoints"> </small> </h1>
-        <h2>banco : <span class="calc" id="bank">10000</span></h2>
+        <h1> <small class="points"  id="playerPoints"> </small><span id="playerN">Jugador 1</span>  <span class="calc" id="bank">10000</span> </h1>
         <div class="col text-center">
+          <input class="betNum" id="betN" type="number" placeholder="mín 10" step="10" />
           <button id="new-game" class="btn btn-danger">jugar</button>
           <button id="take-card" class="btn btn-primary">pedir</button>
           <button id="stand-Button" class="btn btn-primary">permanecer</button>
         </div>
-        <h2>apuesta: <span class="calc" id="bet">10000</span></h2>
+        <h2>apuesta: <span class="calc" id="bet">500</span></h2>
+        
         <div id="player-cards"></div>
       </div>
+
       <div class="col">
         <h1><span id="playerN">Jugador 2</span> <small id="playerPoints"> </small> </h1>
         <div id="player-cards"></div>
