@@ -69,11 +69,8 @@ export const cardEmitter = (data) => {
 };
 
 export const winnerEmitter = (data) => {
+  console.log(data);
   io.emit('winnerR', data);
-};
-
-export const blackjackEmitter = (data) => {
-  io.emit('blackjackEvalR', data);
 };
 
 server.listen(PORT, () => {

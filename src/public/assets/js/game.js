@@ -2,7 +2,6 @@
 //Todo change the buttons to nicer ones canvas png
 //TODO hide players not playing?
 
-//!bet win logic
 //!bankrupt logic (game over)
 
 //TODO add bets and chips to the game
@@ -65,44 +64,38 @@ socket.on('takeCardR', (data) => {
 })
 
 socket.on('winnerR', (data) => {
-  console.log(data);
   setTimeout(() => {
-    console.log(data);
     showLostWin(data);
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
     standButton.disabled = true;
-    //data === 'player' ? bank += bet * 2 : null; //!bet win logic needs to be implemented blackjack 1.5x
+    console.log(data);
     if (data === 'tie') {
       bank += bet;
     } else if (data === 'blackjack') {
+      console.log(bet);
       bank += bet * 2.5;
+      console.log(bank);
     } else if (data === 'blackjack1to1') {
-      bank += bet * 2;
+      const ask = confirm('aceptas pago 1:1');
+      if (ask === true) {
+        bank += bet * 2;
+        turn = 'dealer';
+        takeCard(turn);
+      } else {
+        stand();//!check to add helper to stand function bet not added
+      }
     } else if (data === 'player') {
       bank += bet * 2;
     } else {
       bank += 0;
     }
     bet = 0;
-    betDisplay.innerHTML = bet;
+    betDisplay.innerHTML = bet;//!aqui esta el pedo
     bankDisplay.innerHTML = bank;
   }, 500);
 })
 
-socket.on('blackjackEvalR', (data) => { //!this have to be implemented in the winnerR listener change also in server
-  if (data === 'blackjack') {
-    showLostWin('blackjack');
-    newGameButton.disabled = false;
-    takeCardButton.disabled = true;
-    standButton.disabled = true;
-  } else if (data === 'blackjack1to1') { //TODO falta implementar la lógica del seguro se necesita el modulo de apuestas primero
-    showLostWin('blackjack');
-    newGameButton.disabled = false;
-    takeCardButton.disabled = true;
-    standButton.disabled = true;
-  }
-})
 
 //------------------------------------------
 
@@ -150,6 +143,7 @@ const newGame = () => {
 
 //* This function takes a card from the deck-----
 const takeCard = (turn) => {
+  console.log(turn);
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
@@ -172,6 +166,8 @@ const showLostWin = (data) => {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/bj.png" alt="logo blackjack">`;
   } else if (data === 'dealer') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
+  } else if (data === 'blackjack1to1') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/bj.png" alt="logo blackjack">`;
   } else {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
   }
@@ -184,6 +180,7 @@ const stand = () => {
   takeCard(turn);
   newGameButton.disabled = false;
 }
+
 document.getElementById('game-login').addEventListener('submit', function (event) {
   event.preventDefault();
 
@@ -226,7 +223,7 @@ standButton.addEventListener('click', () => {
 
 //* Ensure betN does not exceed bank
 betInput.addEventListener('input', () => {
-  let betValue = parseInt(betInput.value, 10);
+  let betValue = parseInt(betInput.value);
   if (betValue > bank) {
     betInput.value = bank;
   }
