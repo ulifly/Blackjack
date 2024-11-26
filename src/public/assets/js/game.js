@@ -63,6 +63,7 @@ socket.on('takeCardR', (data) => {
   showCard(card);
 })
 
+
 socket.on('winnerR', (data) => {
   setTimeout(() => {
     showLostWin(data);
@@ -83,7 +84,7 @@ socket.on('winnerR', (data) => {
         turn = 'dealer';
         takeCard(turn);
       } else {
-        stand();//!check to add helper to stand function bet not added
+        stand(true);//!check to add helper to move this else to the last
       }
     } else if (data === 'player') {
       bank += bet * 2;
@@ -174,11 +175,17 @@ const showLostWin = (data) => {
 }
 //--------------------------------------------------
 
-const stand = () => {
+const stand = (blackjack1to1 = false) => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
   newGameButton.disabled = false;
+  if (blackjack1to1) {
+    bank += bet * 2.5;
+    bet = 0;
+    betDisplay.innerHTML = bet;
+    bankDisplay.innerHTML = bank;
+  }
 }
 
 document.getElementById('game-login').addEventListener('submit', function (event) {
