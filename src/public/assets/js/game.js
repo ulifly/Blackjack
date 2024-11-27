@@ -96,6 +96,8 @@ socket.on('winnerR', (data) => {
     bankDisplay.innerHTML = bank;
   }, 500);
 })
+
+
 //! si acepta el pago 1:1 se le paga pero no se voltea la carta
 //! si se cancela y el dealer tiene blackjack se esta pagando como blackjack y debería ser empate
 //! revisar el caso de empate y blackjack1to1
