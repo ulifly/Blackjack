@@ -92,10 +92,17 @@ socket.on('winnerR', (data) => {
       bank += 0;
     }
     bet = 0;
-    betDisplay.innerHTML = bet;//!aqui esta el pedo
+    betDisplay.innerHTML = bet;//!esto limpia el betDisplay y actualiza el bankDisplay
     bankDisplay.innerHTML = bank;
   }, 500);
 })
+//! si acepta el pago 1:1 se le paga pero no se voltea la carta
+//! si se cancela y el dealer tiene blackjack se esta pagando como blackjack y debería ser empate
+//! revisar el caso de empate y blackjack1to1
+//! revisar el caso de blackjack y blackjack1to1
+//! si tiene blackjack y el dealer no, y no se acepta, si funciona correctamente
+
+//!puede ser que modificando el orden de los if se solucione el problema 
 
 
 //------------------------------------------
