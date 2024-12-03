@@ -3,7 +3,7 @@
 //TODO hide players not playing?
 
 //!bankrupt logic (game over)
-
+//!add a message when deck is running out of cards and a new deck is created
 //TODO add bets and chips to the game
 
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
@@ -70,42 +70,34 @@ socket.on('winnerR', (data) => {
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
     standButton.disabled = true;
-    console.log(data);
-    if (data === 'tie') {
-      bank += bet;
-    } else if (data === 'blackjack') {
-      console.log(bet);
-      bank += bet * 2.5;
-      console.log(bank);
-    } else if (data === 'blackjack1to1') {
-      const ask = confirm('aceptas pago 1:1');
-      if (ask === true) {
+
+    switch (data) {
+      case 'tie':
+        bank += bet;
+        break;
+      case 'blackjack':
+        bank += bet * 2.5;
+        break;
+      case 'blackjack1to1':
+        if (confirm('aceptas pago 1:1')) {
+          bank += bet * 2;
+          stand();
+        } else {
+          bank += bet;
+        }
+        break;
+      case 'player':
         bank += bet * 2;
-        turn = 'dealer';
-        takeCard(turn);
-      } else {
-        stand(true);//!check to add helper to move this else to the last
-      }
-    } else if (data === 'player') {
-      bank += bet * 2;
-    } else {
-      bank += 0;
+        break;
+      default:
+        break;
     }
+
     bet = 0;
-    betDisplay.innerHTML = bet;//!esto limpia el betDisplay y actualiza el bankDisplay
+    betDisplay.innerHTML = bet;
     bankDisplay.innerHTML = bank;
   }, 500);
-})
-
-
-//! si acepta el pago 1:1 se le paga pero no se voltea la carta
-//! si se cancela y el dealer tiene blackjack se esta pagando como blackjack y debería ser empate
-//! revisar el caso de empate y blackjack1to1
-//! revisar el caso de blackjack y blackjack1to1
-//! si tiene blackjack y el dealer no, y no se acepta, si funciona correctamente
-
-//!puede ser que modificando el orden de los if se solucione el problema 
-
+});
 
 //------------------------------------------
 
@@ -153,7 +145,6 @@ const newGame = () => {
 
 //* This function takes a card from the deck-----
 const takeCard = (turn) => {
-  console.log(turn);
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------

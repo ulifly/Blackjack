@@ -96,11 +96,18 @@ body {
 .winnerMessage {
   position: absolute;
   top: 50%;
-  left: 35%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  max-width: 100%;
+  /* No superar el ancho del contenedor */
+  max-height: 100%;
+  /* No superar la altura del contenedor */
+  width: auto;
+  /* Mantener la proporción de la imagen */
   height: auto;
+  /* Mantener la proporción de la imagen */
   z-index: 10;
+  /* Asegura que el mensaje esté por encima de las cartas */
 }
 
 @media (max-width: 768px) {
