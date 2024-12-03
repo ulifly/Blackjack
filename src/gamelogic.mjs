@@ -1,6 +1,3 @@
-//TODO Validate playerScoreSum and dealerScoreSum, if the playerScoreSum is greater than 21, the player loses,
-//TODO on the function deckCreation, create a new deck with 52 cards,
-
 //TODO validate at the end of every play if the deck length is less than 25% of the total cards, if so, create a new deck
 //TODO im going to create 6 decks as in casino rules, and shuffle them all together,
 import _ from 'underscore';
@@ -16,8 +13,6 @@ let dealerHand = [];
 let playerScoreSum = 0;
 let dealerScoreSum = 0;
 
-
-
 export const deckCreation = () => {
     for (let i = 2; i <= 10; i++) {
         for (const figure of figures) {
@@ -30,9 +25,27 @@ export const deckCreation = () => {
         }
     }
     deck = _.shuffle(deck);
+    console.log(deck.length);
 
     return deck;
 }
+
+//! debugging deck creation
+// export const deckCreation = () => {
+//     deck = [
+//         'QD', 'QS', '2H', '5C', '5D', '4H', 'KS',
+//         '9D', '5S', '3S', 'AH', '8H', '3D', 'JC',
+//         '3H', '9C', 'AD', '4D', 'KD', '7S', '10C',
+//         '7H', '10H', '10S', '2C', '8C', 'KH', 'QH',
+//         'QC', '6D', '2S', '9S', '9H', '7C', '5H',
+//         '8D', '6H', '6C', '10D', '4S', '7D', '3C',
+//         '2D', '6S', 'JH', 'JD', 'KC', '4C', 'KS', //!debug 8S
+//         //'JS', 'AS', 'AC'
+//         'JS', 'QS', 'KC'
+//     ];
+//     return deck;
+// }
+
 
 export const resetGame = () => {
     playerHand = [];
@@ -43,8 +56,8 @@ export const resetGame = () => {
 
 export const turnHelper = (turn) => {
     if (turn === 'dealer') {
-        while (dealerScoreSum < 17) 
-        takeCard('dealer');
+        while (dealerScoreSum < 17)
+            takeCard('dealer');
         winEvaluator();
     } else {
         takeCard(turn);
@@ -55,6 +68,10 @@ export const turnHelper = (turn) => {
 const takeCard = (turn) => {
     if (deck.length < 10) {
         console.log('deck is less than 10 cards, creating a new deck');
+        deck = [];
+        deck = deckCreation();
+        console.log(deck);
+        console.log(deck.length);
     }
     if (turn === 'player') {
         const card = deck.pop();
@@ -65,7 +82,7 @@ const takeCard = (turn) => {
             playerScoreSum -= 10;
         }
         if (playerScoreSum > 21) {
-            winnerEmitter('dealer'); //!emit winner change this to blackjack
+            winnerEmitter('dealer');
         }
         cardEmitter({ card, playerScoreSum, dealerScoreSum });
     } else {
@@ -88,21 +105,31 @@ const cardValue = (card) => {
 }
 //---------------------------------------------------------
 
-
+//* This function allows us to evaluate the winner of the game------
 const winEvaluator = () => {
     if (playerScoreSum > 21) {
-        winnerEmitter('dealer'); //!emit winner
+        winnerEmitter('dealer');
     } else if (dealerScoreSum > 21) {
-        winnerEmitter('player'); //!emit winner
+        winnerEmitter('player');
     } else if (dealerScoreSum === 21 && playerScoreSum != 21) {
-        winnerEmitter('dealer'); //!emit winner
+        winnerEmitter('dealer');
     } else if (dealerScoreSum === 21 && playerScoreSum === 21) {
-        winnerEmitter('tie'); //!emit winner
+        winnerEmitter('tie');
     } else if (dealerScoreSum === playerScoreSum) {
-        winnerEmitter('tie'); //!emit winner
+        winnerEmitter('tie');
     } else if (dealerScoreSum > playerScoreSum) {
-        winnerEmitter('dealer'); //!emit winner
+        winnerEmitter('dealer');
+    } else if (playerScoreSum === 21 && dealerScoreSum != 21 && playerHand.length === 2) {
+        winnerEmitter('blackjack')
     } else {
-        winnerEmitter('player'); //!emit winner
+        winnerEmitter('player');
     }
 };
+
+export const blackjackEvaluator = () => {
+    if (playerScoreSum === 21 && dealerScoreSum != 11) {
+        winnerEmitter('blackjack');
+    } else if (playerScoreSum === 21 && dealerScoreSum === 11) {
+        winnerEmitter('blackjack1to1');
+    }
+}

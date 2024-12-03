@@ -1,21 +1,31 @@
 
-//Todo change the buttons to nicer ones 
+//Todo change the buttons to nicer ones canvas png
+//TODO hide players not playing?
+
+//!add a message when deck is running out of cards and a new deck is created
+//!offer insurance when dealer has an ace as first card, the insurance is half the bet, if the dealer has blackjack the player gets 2:1
+//!add a button to double down, the player can double the bet and take only one card  
+//!add a button to split, the player can split the hand if the two cards are the same value, the player can play two hands
+//!add a button to surrender, the player can surrender and get half of the bet back
+
+//TODO add bets and chips to the game
 
 //TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
 //TODO create button and logic to logout from server
-//TODO reset points when a new game starts
 
 //TODO add a background image to the game
 //TODO change winner message for a nicer one
-//TODO add flip card animations and sounds
 //TODO add multiplayer functionality (3 players to the table)
-//TODO check for player reconnection and continue the game(game session - game state)
 //TODO when on play the new player should be able to see the game in progress but not to play until the game is over
+
+//TODO add flip card animations and sounds
+//TODO check for player reconnection and continue the game(game session - game state)
 //TODO add a chat to the game
 
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
+const bankDisplay = document.querySelector('#bank');
 const newGameButton = document.querySelector('#new-game');
 const takeCardButton = document.querySelector('#take-card');
 const standButton = document.querySelector('#stand-Button');
@@ -23,8 +33,15 @@ const playerPoints = document.querySelector('#playerPoints');
 const dealerPoints = document.querySelector('#dealerPoints');
 const loginScreen = document.querySelector('#loginScreen');
 const gameScreen = document.querySelector('#mainGame');
+const body = document.querySelector('body');
+const betInput = document.querySelector('#betN');
+const betDisplay = document.querySelector('#bet');
+
 
 let turn = 'dealer';
+let bank = 1500;
+let bet = 0;
+
 
 //**  Sockets listeners -----------------------
 socket.on('roomFull', data => {
@@ -35,8 +52,10 @@ socket.on('gameSessionLog', playerName => {
   loginScreen.remove();
   setTimeout(() => {
     gameScreen.classList.remove('hidden-content');
+    body.classList.remove('d-flex');
   }, 300);
   document.querySelector('#playerN').innerHTML = playerName + " ";
+  //document.querySelector('#playerBank').innerHTML = bank;
 })
 
 socket.on('takeCardR', (data) => {
@@ -48,14 +67,46 @@ socket.on('takeCardR', (data) => {
   showCard(card);
 })
 
+
 socket.on('winnerR', (data) => {
   setTimeout(() => {
     showLostWin(data);
     newGameButton.disabled = false;
     takeCardButton.disabled = true;
     standButton.disabled = true;
+
+    switch (data) {
+      case 'tie':
+        bank += bet;
+        break;
+      case 'blackjack':
+        bank += bet * 2.5;
+        break;
+      case 'blackjack1to1':
+        if (confirm('aceptas pago 1:1')) {
+          bank += bet * 2;
+          stand();
+        } else {
+          bank += bet;
+        }
+        break;
+      case 'player':
+        bank += bet * 2;
+        break;
+      default:
+        break;
+    }
+
+    bet = 0;
+    betDisplay.innerHTML = bet;
+    bankDisplay.innerHTML = bank;
+    if (bank === 0) {
+      alert('Game Over');
+      location.reload();
+    }
   }, 500);
-})
+});
+
 //------------------------------------------
 
 
@@ -78,8 +129,6 @@ const newGame = () => {
 
   dealerCards.innerHTML += `<img  id="backCard" class = "game-card" src="/Assets/cartas/grey_back.png" alt="card back">`;
 
-  takeCardButton.disabled = false;
-  standButton.disabled = false;
   newGameButton.disabled = true;
 
   setTimeout(() => {
@@ -90,14 +139,20 @@ const newGame = () => {
   setTimeout(() => {
     turn = 'player';
     takeCard(turn);
+
+    setTimeout(() => {
+      takeCardButton.disabled = false;
+      standButton.disabled = false;
+      socket.emit("blackjackEval");
+    }, 600);
   }, 1000); // Delay to simulate player's turn
+
 }
 //-----------------------------------------------
 
 
 //* This function takes a card from the deck-----
 const takeCard = (turn) => {
-  console.log(turn)
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
@@ -116,21 +171,31 @@ const showCard = (card) => {
 const showLostWin = (data) => {
   if (data === 'player') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/ganaste.png" alt="logo ganador">`;
+  } else if (data === 'blackjack') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/bj.png" alt="logo blackjack">`;
   } else if (data === 'dealer') {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/pierde.png" alt="logo perdiste">`;
+  } else if (data === 'blackjack1to1') {
+    playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/bj.png" alt="logo blackjack">`;
   } else {
     playerCards.innerHTML += `<img class = "winnerMessage" src="/assets/images/empate.png" alt="logo empate">`;
   }
-
 }
 //--------------------------------------------------
 
-const stand = () => {
+const stand = (blackjack1to1 = false) => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
   newGameButton.disabled = false;
+  if (blackjack1to1) {
+    bank += bet * 2.5;
+    bet = 0;
+    betDisplay.innerHTML = bet;
+    bankDisplay.innerHTML = bank;
+  }
 }
+
 document.getElementById('game-login').addEventListener('submit', function (event) {
   event.preventDefault();
 
@@ -143,7 +208,17 @@ document.getElementById('game-login').addEventListener('submit', function (event
 //*init game----------------------------------------
 takeCardButton.disabled = true;
 standButton.disabled = true;
+bankDisplay.innerHTML = bank;
+//--------------------------------------------------
+
+//*  listens to the event of the button and call the function to start a new game
 newGameButton.addEventListener('click', () => {
+  const betValue = parseInt(betInput.value, 10); //get the bet value
+  bank -= betValue; //subtract the bet from the bank
+  bankDisplay.innerHTML = bank; //update the bank display
+  bet = betValue; //set the bet value
+  betDisplay.innerHTML = bet; //display the bet value
+
   newGame();
 });
 //-----------------------------------------------
@@ -161,3 +236,10 @@ standButton.addEventListener('click', () => {
   stand();
 });
 
+//* Ensure betN does not exceed bank
+betInput.addEventListener('input', () => {
+  let betValue = parseInt(betInput.value);
+  if (betValue > bank) {
+    betInput.value = bank;
+  }
+});

@@ -6,20 +6,69 @@ body {
 
 .game-card {
   position: relative;
-  width: 150px;
-  left: 100px;
-  top: 30px;
+  width: 10vw;
+  /* Ajusta el ancho en función del tamaño de la ventana */
+  max-width: 150px;
+  /* Establece un ancho máximo para evitar que las cartas sean demasiado grandes */
+  margin: 5px;
+  /* Añade un margen para separar las cartas */
+}
+
+h1 {
+  text-align: center;
+  margin-top: 1rem;
+  font-family: "Tangerine", cursive;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 3.5rem;
+}
+
+.points {
+  color: rgb(241, 188, 40);
+  text-align: center;
+  font-family: "Tangerine", cursive;
+  font-weight: 800;
+  font-size: 3.5rem;
+  margin-right: 20px;
+}
+
+.betNum {
+  width: 70px;
+}
+
+h2 {
+  text-align: center;
+  font-family: "Tangerine", cursive;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 2.5rem;
+}
+
+.calc {
+  font-family: "Doto", sans-serif;
+  font-size: 1rem;
+  background-color: rgb(40, 38, 38);
+  color: rgb(248, 72, 87);
+  width: 50px;
+  padding: 4px;
+  border: 2px solid rgb(167, 154, 154);
+  background-clip: padding-box;
 }
 
 #player-cards,
 #dealer-cards {
   display: flex;
-  height: 230px;
+  height: 20vh;
+  /* Ajusta la altura en función del tamaño de la ventana */
   position: relative;
+  flex-wrap: wrap;
+  /* Permite que las cartas se envuelvan en varias filas si es necesario */
+  justify-content: center;
+  /* Centra las cartas horizontalmente */
 }
 
 .player-cards {
-  margin-left: -105px;
+  margin-left: -5vw;
 }
 
 .hidden-content {
@@ -47,9 +96,54 @@ body {
 .winnerMessage {
   position: absolute;
   top: 50%;
-  left: 35%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  max-width: 100%;
+  /* No superar el ancho del contenedor */
+  max-height: 100%;
+  /* No superar la altura del contenedor */
+  width: auto;
+  /* Mantener la proporción de la imagen */
   height: auto;
+  /* Mantener la proporción de la imagen */
   z-index: 10;
+  /* Asegura que el mensaje esté por encima de las cartas */
+}
+
+@media (max-width: 768px) {
+
+  #player-cards,
+  #dealer-cards {
+    height: 15vh;
+    /* Ajusta la altura para pantallas más pequeñas */
+  }
+
+  .game-card {
+    width: 7vw;
+    /* Ajusta el ancho para pantallas más pequeñas */
+  }
+
+  .player-cards {
+    margin-left: -2.3vw;
+    /* Ajusta el margen para pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+
+  #player-cards,
+  #dealer-cards {
+    height: 15vh;
+    /* Ajusta la altura para pantallas muy pequeñas */
+  }
+
+  .game-card {
+    width: 7vw;
+    /* Ajusta el ancho para pantallas muy pequeñas */
+  }
+
+  .player-cards {
+    margin-left: -1vw;
+    /* Ajusta el margen para pantallas muy pequeñas */
+  }
 }

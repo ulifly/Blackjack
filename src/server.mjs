@@ -4,7 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 
-import { deckCreation, resetGame, turnHelper } from './gamelogic.mjs'
+import { deckCreation, resetGame, turnHelper, blackjackEvaluator } from './gamelogic.mjs'
 
 
 const deck = deckCreation();
@@ -21,7 +21,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 const players = {};
-let plyerCount = 1;
+let playerCount = 1;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,15 +29,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+//* Socket connections and listeners--------------
 io.on('connection', (socket) => {
   console.log('a user connected');
 
   socket.on('logToServer', (playerName) => {
-    if (Object.keys(players).length >= 4) { //TODO change the number for more players when implemented
+    if (Object.keys(players).length >= 100) { //TODO change the number for more players when implemented
       socket.emit('roomFull', true)
     } else {
-      players[plyerCount] = playerName;
-      plyerCount++;
+      players[playerCount] = playerName;
+      playerCount++;
       socket.emit('gameSessionLog', playerName);
     }
     console.log({ players });
@@ -52,16 +53,23 @@ io.on('connection', (socket) => {
     turnHelper(turn)
   });
 
+  socket.on("blackjackEval", () => {
+    blackjackEvaluator();
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+
 });
+//----------------------------------------------
 
 export const cardEmitter = (data) => {
   io.emit('takeCardR', data);
 };
 
-export const winnerEmitter = (data) => { //!emit winner
+export const winnerEmitter = (data) => {
+  console.log(data);
   io.emit('winnerR', data);
 };
 
