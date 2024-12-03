@@ -119,7 +119,7 @@ const winEvaluator = () => {
         winnerEmitter('tie');
     } else if (dealerScoreSum > playerScoreSum) {
         winnerEmitter('dealer');
-    } else if (playerScoreSum === 21 && dealerScoreSum != 21) {
+    } else if (playerScoreSum === 21 && dealerScoreSum != 21 && playerHand.length === 2) {
         winnerEmitter('blackjack')
     } else {
         winnerEmitter('player');
