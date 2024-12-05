@@ -1,29 +1,5 @@
-
-//Todo change the buttons to nicer ones canvas png
-//TODO hide players not playing?
-
-//!add a message when deck is running out of cards and a new deck is created
-//!offer insurance when dealer has an ace as first card, the insurance is half the bet, if the dealer has blackjack the player gets 2:1
-//!add a button to split, the player can split the hand if the two cards are the same value, the player can play two hands
-//!add a button to surrender, the player can surrender and get half of the bet back
-
 //*BJO-7A 
 //!add a button to double down, the player can double the bet and take only one card  this first
-
-
-//TODO add bets and chips to the game
-
-//TODO add advanced game rules logic (natural 21, split, double down, surrender, insurance)
-//TODO create button and logic to logout from server
-
-//TODO add a background image to the game
-//TODO change winner message for a nicer one
-//TODO add multiplayer functionality (3 players to the table)
-//TODO when on play the new player should be able to see the game in progress but not to play until the game is over
-
-//TODO add flip card animations and sounds
-//TODO check for player reconnection and continue the game(game session - game state)
-//TODO add a chat to the game
 
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
