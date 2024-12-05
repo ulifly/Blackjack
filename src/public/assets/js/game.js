@@ -4,9 +4,12 @@
 
 //!add a message when deck is running out of cards and a new deck is created
 //!offer insurance when dealer has an ace as first card, the insurance is half the bet, if the dealer has blackjack the player gets 2:1
-//!add a button to double down, the player can double the bet and take only one card  
 //!add a button to split, the player can split the hand if the two cards are the same value, the player can play two hands
 //!add a button to surrender, the player can surrender and get half of the bet back
+
+//*BJO-7A 
+//!add a button to double down, the player can double the bet and take only one card  this first
+
 
 //TODO add bets and chips to the game
 
