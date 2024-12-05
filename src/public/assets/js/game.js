@@ -7,8 +7,8 @@
 //!add a button to split, the player can split the hand if the two cards are the same value, the player can play two hands
 //!add a button to surrender, the player can surrender and get half of the bet back
 
-//*BJO-7A
-//!add a button to double down, the player can double the bet and take only one card  
+//*BJO-7A 
+//!add a button to double down, the player can double the bet and take only one card  this first
 
 
 //TODO add bets and chips to the game
