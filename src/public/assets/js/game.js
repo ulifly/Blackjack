@@ -70,7 +70,7 @@ socket.on('winnerR', (data) => {
           stand();
         } else {
           //bank += bet; //!error here
-          stand();
+          stand(true);
         }
         break;
       case 'player':
@@ -169,7 +169,7 @@ const showLostWin = (data) => {
 }
 //--------------------------------------------------
 
-const stand = (blackjack1to1 = false) => {
+const stand = (blackjack1to1) => { //const stand = (blackjack1to1 = false) => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
