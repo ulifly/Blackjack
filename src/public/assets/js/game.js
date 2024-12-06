@@ -1,5 +1,6 @@
 //*BJO-7A 
 //!add a button to double down, the player can double the bet and take only one card  this first
+//!check error when the player has a blackjack and the dealer has an ace and the player decides to not take the 1:1 payment
 
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
