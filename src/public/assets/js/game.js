@@ -1,6 +1,8 @@
 //*BJO-7A 
 //!add a button to double down, the player can double the bet and take only one card  this first
-//!check error when the player has a blackjack and the dealer has an ace and the player decides to not take the 1:1 payment
+
+//!check error when the player has a blackjack and the dealer has an ace and the player decides 
+//!to not take the 1:1 payment and dealer does not has a blackjack bet is not paid to the player
 
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
@@ -67,7 +69,8 @@ socket.on('winnerR', (data) => {
           bank += bet * 2;
           stand();
         } else {
-          bank += bet;
+          //bank += bet; //!error here
+          stand();
         }
         break;
       case 'player':
@@ -127,7 +130,7 @@ const newGame = () => {
     }, 600);
   }, 1000); // Delay to simulate player's turn
 
-  //doubleBtn.classList.remove('hidden-content')
+  doubleBtn.classList.remove('hidden-content')
 
 
 }
@@ -176,7 +179,7 @@ const stand = (blackjack1to1 = false) => {
     bet = 0;
     betDisplay.innerHTML = bet;
     bankDisplay.innerHTML = bank;
-  }
+  } //!error here else needed to add the bet to the bank
 }
 
 document.getElementById('game-login').addEventListener('submit', function (event) {
