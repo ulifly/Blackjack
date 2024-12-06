@@ -126,6 +126,8 @@ const newGame = () => {
     }, 600);
   }, 1000); // Delay to simulate player's turn
 
+  //!add a button to double down removing the hidden class
+
 }
 //-----------------------------------------------
 
