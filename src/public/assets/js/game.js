@@ -15,7 +15,7 @@ const gameScreen = document.querySelector('#mainGame');
 const body = document.querySelector('body');
 const betInput = document.querySelector('#betN');
 const betDisplay = document.querySelector('#bet');
-
+const doubleBtn = document.querySelector('#doubleBtn');
 
 let turn = 'dealer';
 let bank = 1500;
@@ -126,7 +126,8 @@ const newGame = () => {
     }, 600);
   }, 1000); // Delay to simulate player's turn
 
-  //!add a button to double down removing the hidden class
+  //doubleBtn.classList.remove('hidden-content')
+
 
 }
 //-----------------------------------------------
