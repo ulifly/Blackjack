@@ -51,43 +51,7 @@ socket.on('takeCardR', (data) => {
 
 
 socket.on('winnerR', (data) => {
-  setTimeout(() => {
-    showLostWin(data);
-    newGameButton.disabled = false;
-    takeCardButton.disabled = true;
-    standButton.disabled = true;
-
-    switch (data) {
-      case 'tie':
-        bank += bet;
-        break;
-      case 'blackjack':
-        bank += bet * 2.5;
-        break;
-      case 'blackjack1to1':
-        if (confirm('aceptas pago 1:1')) {
-          bank += bet * 2;
-          stand();
-        } else {
-          //bank += bet; //!error here
-          stand(true);
-        }
-        break;
-      case 'player':
-        bank += bet * 2;
-        break;
-      default:
-        break;
-    }
-
-    bet = 0;
-    betDisplay.innerHTML = bet;
-    bankDisplay.innerHTML = bank;
-    if (bank === 0) {
-      alert('Game Over');
-      location.reload();
-    }
-  }, 500);
+  showWinner(data);
 });
 
 //------------------------------------------
@@ -142,6 +106,49 @@ const takeCard = (turn) => {
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
+
+//* This function show the winner of the game
+const showWinner = (data) => {
+  setTimeout(() => {
+    showLostWin(data);
+    newGameButton.disabled = false;
+    takeCardButton.disabled = true;
+    standButton.disabled = true;
+
+    switch (data) {
+      case 'tie':
+        bank += bet;
+        break;
+      case 'blackjack':
+        bank += bet * 2.5;
+        break;
+      case 'blackjack1to1':
+        if (confirm('aceptas pago 1:1')) {
+          bank += bet * 2;
+          stand();
+        } else {
+          //bank += bet; //!error here
+          stand(true);
+        }
+        break;
+      case 'player':
+        bank += bet * 2;
+        break;
+      default:
+        break;
+    }
+
+    bet = 0;
+    betDisplay.innerHTML = bet;
+    bankDisplay.innerHTML = bank;
+    if (bank === 0) {
+      alert('Game Over');
+      location.reload();
+    }
+  }, 500);
+}
+//-----------------------------------------------
+
 
 //* This function shows the card in the screen
 const showCard = (card) => {
@@ -211,7 +218,7 @@ newGameButton.addEventListener('click', () => {
 
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
-  playerCard = takeCard(turn);
+  const playerCard = takeCard(turn);
 });
 
 //* listens to the event of the button stand and call the function to take the dealer turn
