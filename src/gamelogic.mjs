@@ -39,9 +39,9 @@ export const deckCreation = () => {
 //         '7H', '10H', '10S', '2C', '8C', 'KH', 'QH',
 //         'QC', '6D', '2S', '9S', '9H', '7C', '5H',
 //         '8D', '6H', '6C', '10D', '4S', '7D', '3C',
-//         '2D', '6S', 'JH', 'JD', 'KC', '4C', 'KS', //!debug 8S
-//         //'JS', 'AS', 'AC'
-//         'JS', 'QS', 'KC'
+//         '2D', '6S', 'JH', 'JD', 'KC', '4C', '8S', //!debug 8S
+//         'JS', 'AS', 'AC'
+//         //'JS', 'QS', 'KC'
 //     ];
 //     return deck;
 // }

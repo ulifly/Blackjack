@@ -1,6 +1,9 @@
 //*BJO-7A 
 //!add a button to double down, the player can double the bet and take only one card  this first
 
+//!check error when the player has a blackjack and the dealer has an ace and the player decides 
+//!to not take the 1:1 payment and dealer does not has a blackjack bet is not paid to the player
+
 // HTML elements
 const playerCards = document.querySelector('#player-cards');
 const dealerCards = document.querySelector('#dealer-cards');
@@ -15,7 +18,7 @@ const gameScreen = document.querySelector('#mainGame');
 const body = document.querySelector('body');
 const betInput = document.querySelector('#betN');
 const betDisplay = document.querySelector('#bet');
-
+const doubleBtn = document.querySelector('#doubleBtn');
 
 let turn = 'dealer';
 let bank = 1500;
@@ -48,42 +51,7 @@ socket.on('takeCardR', (data) => {
 
 
 socket.on('winnerR', (data) => {
-  setTimeout(() => {
-    showLostWin(data);
-    newGameButton.disabled = false;
-    takeCardButton.disabled = true;
-    standButton.disabled = true;
-
-    switch (data) {
-      case 'tie':
-        bank += bet;
-        break;
-      case 'blackjack':
-        bank += bet * 2.5;
-        break;
-      case 'blackjack1to1':
-        if (confirm('aceptas pago 1:1')) {
-          bank += bet * 2;
-          stand();
-        } else {
-          bank += bet;
-        }
-        break;
-      case 'player':
-        bank += bet * 2;
-        break;
-      default:
-        break;
-    }
-
-    bet = 0;
-    betDisplay.innerHTML = bet;
-    bankDisplay.innerHTML = bank;
-    if (bank === 0) {
-      alert('Game Over');
-      location.reload();
-    }
-  }, 500);
+  showWinner(data);
 });
 
 //------------------------------------------
@@ -126,6 +94,9 @@ const newGame = () => {
     }, 600);
   }, 1000); // Delay to simulate player's turn
 
+  doubleBtn.classList.remove('hidden-content')
+
+
 }
 //-----------------------------------------------
 
@@ -135,6 +106,48 @@ const takeCard = (turn) => {
   socket.emit('takeCard', turn);
 }
 //-----------------------------------------------
+
+//* This function show the winner of the game
+const showWinner = (data) => {
+  setTimeout(() => {
+    showLostWin(data);
+    newGameButton.disabled = false;
+    takeCardButton.disabled = true;
+    standButton.disabled = true;
+
+    switch (data) {
+      case 'tie':
+        bank += bet;
+        break;
+      case 'blackjack':
+        bank += bet * 2.5;
+        break;
+      case 'blackjack1to1':
+        if (confirm('aceptas pago 1:1')) {
+          bank += bet * 2;
+          stand();
+        } else {
+          stand(true);
+        }
+        break;
+      case 'player':
+        bank += bet * 2;
+        break;
+      default:
+        break;
+    }
+
+    bet = 0;
+    betDisplay.innerHTML = bet;
+    bankDisplay.innerHTML = bank;
+    if (bank === 0) {
+      alert('Game Over');
+      location.reload();
+    }
+  }, 500);
+}
+//-----------------------------------------------
+
 
 //* This function shows the card in the screen
 const showCard = (card) => {
@@ -162,7 +175,7 @@ const showLostWin = (data) => {
 }
 //--------------------------------------------------
 
-const stand = (blackjack1to1 = false) => {
+const stand = (blackjack1to1) => { //const stand = (blackjack1to1 = false) => {
   turn = 'dealer';
   dealerCards.removeChild(document.getElementById('backCard'));
   takeCard(turn);
@@ -204,7 +217,7 @@ newGameButton.addEventListener('click', () => {
 
 //*  listens to the event of the button and call the function to take a card
 takeCardButton.addEventListener('click', () => {
-  playerCard = takeCard(turn);
+  const playerCard = takeCard(turn);
 });
 
 //* listens to the event of the button stand and call the function to take the dealer turn

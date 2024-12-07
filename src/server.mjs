@@ -69,7 +69,6 @@ export const cardEmitter = (data) => {
 };
 
 export const winnerEmitter = (data) => {
-  console.log(data);
   io.emit('winnerR', data);
 };
 
