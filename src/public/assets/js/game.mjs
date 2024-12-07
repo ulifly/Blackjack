@@ -127,7 +127,6 @@ const showWinner = (data) => {
           bank += bet * 2;
           stand();
         } else {
-          //bank += bet; //!error here
           stand(true);
         }
         break;
@@ -186,7 +185,7 @@ const stand = (blackjack1to1) => { //const stand = (blackjack1to1 = false) => {
     bet = 0;
     betDisplay.innerHTML = bet;
     bankDisplay.innerHTML = bank;
-  } //!error here else needed to add the bet to the bank
+  }
 }
 
 document.getElementById('game-login').addEventListener('submit', function (event) {
